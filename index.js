@@ -68,9 +68,14 @@ const apartments = {
   two138: { title: '2 Bedroom Apartment', size: '138 sqm', folder: 'two-bedroom-138' },
   two148: { title: '2 Bedroom Apartment', size: '148 sqm', folder: 'two-bedroom-148' },
   two150: { title: '2 Bedroom Apartment', size: '150 sqm', folder: 'two-bedroom-150' },
+
+  three176: {
+    title: '3 Bedroom Apartment',
+    size: '176 sqm',
+    folder: 'three-bedroom-176'
+  },
+
   pha551: { title: 'Penthouse A (PHA)', size: '551 sqm', folder: 'pha' },
-  phb465: { title: 'Penthouse B (PHB)', size: '465 sqm', folder: 'phb' },
-  phc435: { title: 'Penthouse C (PHC)', size: '435 sqm', folder: 'phc' }
 };
 
 function galleryFor(folder) {
@@ -257,7 +262,7 @@ async function sendInquiryToStaff(inquiry) {
   rows.push(
     [Markup.button.callback('✅ Contacted', `inq:contacted:${inquiry.id}`)],
     [Markup.button.callback('✔ Completed', `inq:completed:${inquiry.id}`),
-     Markup.button.callback('❌ Cancelled', `inq:cancelled:${inquiry.id}`)]
+    Markup.button.callback('❌ Cancelled', `inq:cancelled:${inquiry.id}`)]
   );
 
   await bot.telegram.sendMessage(groupId, text, Markup.inlineKeyboard(rows));
