@@ -1,3 +1,41 @@
-const db=require('../../database/db');const {Markup}=require('telegraf');const {reference}=require('../../services/helpers');
-async function createEnquiry(bot,data,staffGroupId){const ref=reference('ENQ');db.prepare(`INSERT INTO enquiries(reference,telegram_user_id,telegram_username,customer_name,phone,email,subject,message,room_id,preferred_date) VALUES(?,?,?,?,?,?,?,?,?,?)`).run(ref,String(data.userId||''),data.username||'',data.name||'',data.phone||'',data.email||'',data.subject||'Customer enquiry',data.message||'',data.roomId||null,data.preferredDate||'');if(staffGroupId){const text=`🏢 NEW CUSTOMER REQUEST\n\n🔖 ${ref}\n👤 ${data.name||'Unknown'}\n📞 ${data.phone||'Not provided'}\n📧 ${data.email||'Not provided'}\n📌 ${data.subject||'Enquiry'}\n📅 ${data.preferredDate||'Not specified'}\n\n💬 ${data.message||''}`;await bot.telegram.sendMessage(staffGroupId,text,Markup.inlineKeyboard([[Markup.button.callback('✅ Accept',`enquiry:accepted:${ref}`),Markup.button.callback('🕐 Pending',`enquiry:pending:${ref}`)],[Markup.button.callback('❌ Decline',`enquiry:declined:${ref}`)]]).reply_markup).catch(err=>console.error('Staff notification failed:',err.message))}return ref}
-module.exports={createEnquiry};
+const db = require('../../database/db');
+
+function makeReference() {
+  const d = new Date();
+  return `MLN-${d.toISOString().slice(0,10).replaceAll('-','')}-${String(Date.now()).slice(-6)}`;
+}
+
+async function createEnquiry(bot, payload, staffGroupId) {
+  const reference = makeReference();
+  db.prepare(`INSERT INTO enquiries
+    (reference, telegram_user_id, telegram_username, customer_name, phone, subject, message, room_id, preferred_date)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`)
+    .run(reference, payload.userId || '', payload.username || '', payload.name || '', payload.phone || '', payload.subject || 'General enquiry', payload.message || '', payload.roomId || null, payload.preferredDate || '');
+
+  const text = [
+    '🏢 <b>NEW CUSTOMER REQUEST</b>', '',
+    `🔖 Reference: <code>${reference}</code>`,
+    `👤 Customer: ${escapeHtml(payload.name || 'Not provided')}`,
+    `📞 Phone: ${escapeHtml(payload.phone || 'Not provided')}`,
+    `📝 Subject: ${escapeHtml(payload.subject || 'General enquiry')}`,
+    payload.preferredDate ? `📅 Preferred date: ${escapeHtml(payload.preferredDate)}` : '',
+    `💬 Message: ${escapeHtml(payload.message || 'No message')}`
+  ].filter(Boolean).join('\n');
+
+  if (staffGroupId) {
+    await bot.telegram.sendMessage(staffGroupId, text, {
+      parse_mode: 'HTML',
+      reply_markup: { inline_keyboard: [[
+        { text: '✅ Accept', callback_data: `enquiry:accepted:${reference}` },
+        { text: '🕐 Pending', callback_data: `enquiry:pending:${reference}` }
+      ], [{ text: '❌ Decline', callback_data: `enquiry:declined:${reference}` }]] }
+    });
+  }
+  return reference;
+}
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+}
+
+module.exports = { createEnquiry };
