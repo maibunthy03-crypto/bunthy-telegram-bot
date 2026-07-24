@@ -5,7 +5,6 @@ const path = require('path');
 const http = require('http');
 const crypto = require('crypto');
 const { Telegraf, Markup, Input } = require('telegraf');
-const { translate } = require('@vitalets/google-translate-api');
 
 const BOT_TOKEN = process.env.BOT_TOKEN;
 const OWNER_ID = Number(process.env.OWNER_ID || 0);
@@ -15,6 +14,7 @@ const RECEPTION_TELEGRAM = process.env.RECEPTION_TELEGRAM || '';
 const WEBSITE = process.env.WEBSITE || 'https://www.malineapartments.com.kh';
 const GOOGLE_MAPS_URL = process.env.GOOGLE_MAPS_URL || '';
 const PUBLIC_URL = String(process.env.PUBLIC_URL || '').replace(/\/$/, '');
+const GOOGLE_TRANSLATE_API_KEY = process.env.GOOGLE_TRANSLATE_API_KEY || '';
 const PORT = Number(process.env.PORT || 8000);
 
 if (!BOT_TOKEN) {
@@ -25,18 +25,83 @@ if (!BOT_TOKEN) {
 const bot = new Telegraf(BOT_TOKEN);
 const DATA_FILE = path.join(__dirname, 'data', 'bot-data.json');
 
+
+const SERVICE_INCLUDED = [
+  'Cable TV (living room and master bedroom)',
+  'Fully equipped kitchen',
+  'Iron and ironing board',
+  'Safe deposit box',
+  'Washing machine',
+  'Dining table with chairs',
+  'Management fee',
+  'One in-house parking space',
+  'Daily newspaper at the lobby',
+  'Modern gym, swimming pool, steam and sauna',
+  'Kids playground',
+  'Wi-Fi internet',
+  'Cleaning and linen change twice per week',
+  'Water supply',
+  'Lift maintenance',
+  'Building maintenance'
+];
+
+const SERVICE_EXCLUDED = [
+  'Telephone IDD',
+  'Electricity usage — $0.25 per kilowatt',
+  'Rooftop sky bar'
+];
+
+function contactBlock() {
+  return [
+    '📞 Contact Us to Schedule a Viewing:',
+    `🔹 Telegram: ${RECEPTION_TELEGRAM}`,
+    `🔹 Tel: ${RECEPTION_PHONE}`,
+    `🔹 Website: ${WEBSITE}`
+  ].join('\n');
+}
+
 const apartments = {
-  studio50: { title: 'Studio Apartment', size: '50 sqm', image: '/web/images/studio.jpg' },
-  one84: { title: '1 Bedroom Apartment', size: '84 sqm', image: '/web/images/one-bedroom-84.jpg' },
-  one91: { title: '1 Bedroom Apartment', size: '91 sqm', image: '/web/images/one-bedroom-91.jpg' },
-  two130: { title: '2 Bedroom Apartment', size: '130 sqm', image: '/web/images/two-bedroom-130.jpg' },
-  two138: { title: '2 Bedroom Apartment', size: '138 sqm', image: '/web/images/two-bedroom-138.jpg' },
-  two148: { title: '2 Bedroom Apartment', size: '148 sqm', image: '/web/images/two-bedroom-148.jpg' },
-  two150: { title: '2 Bedroom Apartment', size: '150 sqm', image: '/web/images/two-bedroom-150.jpg' },
-  pha551: { title: 'Penthouse A (PHA)', size: '551 sqm', image: '/web/images/pha.jpg' },
-  phb465: { title: 'Penthouse B (PHB)', size: '465 sqm', image: '/web/images/phb.jpg' },
-  phc435: { title: 'Penthouse C (PHC)', size: '435 sqm', image: '/web/images/phc.jpg' }
+  studio50: { title: 'Studio Apartment', size: '50 sqm', folder: 'studio' },
+  one84: { title: '1 Bedroom Apartment', size: '84 sqm', folder: 'one-bedroom-84' },
+  one91: { title: '1 Bedroom Apartment', size: '91 sqm', folder: 'one-bedroom-91' },
+  two130: { title: '2 Bedroom Apartment', size: '130 sqm', folder: 'two-bedroom-130' },
+  two138: { title: '2 Bedroom Apartment', size: '138 sqm', folder: 'two-bedroom-138' },
+  two148: { title: '2 Bedroom Apartment', size: '148 sqm', folder: 'two-bedroom-148' },
+  two150: { title: '2 Bedroom Apartment', size: '150 sqm', folder: 'two-bedroom-150' },
+  pha551: { title: 'Penthouse A (PHA)', size: '551 sqm', folder: 'pha' },
+  phb465: { title: 'Penthouse B (PHB)', size: '465 sqm', folder: 'phb' },
+  phc435: { title: 'Penthouse C (PHC)', size: '435 sqm', folder: 'phc' }
 };
+
+function galleryFor(folder) {
+  const images = [];
+  for (let i = 1; i <= 10; i++) {
+    for (const ext of ['jpg', 'jpeg', 'png', 'webp']) {
+      const local = path.join(__dirname, 'web', 'images', folder, `${i}.${ext}`);
+      if (fs.existsSync(local)) {
+        images.push(`/web/images/${folder}/${i}.${ext}`);
+        break;
+      }
+    }
+  }
+  const oldImage = path.join(__dirname, 'web', 'images', `${folder}.jpg`);
+  if (!images.length && fs.existsSync(oldImage)) images.push(`/web/images/${folder}.jpg`);
+  return images.length ? images : ['/web/images/building.jpg'];
+}
+
+async function googleTranslate(text, target, source = '') {
+  if (!GOOGLE_TRANSLATE_API_KEY) throw new Error('GOOGLE_TRANSLATE_API_KEY is missing');
+  const body = new URLSearchParams({ q: text, target, format: 'text' });
+  if (source) body.set('source', source);
+  const response = await fetch(
+    `https://translation.googleapis.com/language/translate/v2?key=${encodeURIComponent(GOOGLE_TRANSLATE_API_KEY)}`,
+    { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body }
+  );
+  const result = await response.json();
+  if (!response.ok) throw new Error(result?.error?.message || 'Google Translation failed');
+  const item = result?.data?.translations?.[0] || {};
+  return { text: item.translatedText || '', detected: item.detectedSourceLanguage || source };
+}
 
 function defaultData() {
   return {
@@ -124,33 +189,36 @@ function apartmentKeyboard() {
 async function sendApartment(ctx, key) {
   const apt = apartments[key];
   if (!apt) return;
-  const price = data.prices[key] || 'Contact us for price';
-  const availability = data.availability[key] || 'Contact reception';
   const text = [
     `🏨 ${apt.title}`,
     `📐 ${apt.size}`,
-    `💰 ${price}`,
-    `🟢 Availability: ${availability}`,
+    `💰 ${data.prices[key] || 'Contact us for price'}`,
+    `🟢 Availability: ${data.availability[key] || 'Contact reception'}`,
     '',
-    'Open the Mini App to view photos and submit an inquiry.'
+    '✅ Service Included:',
+    ...SERVICE_INCLUDED.map(item => `• ${item}`),
+    '',
+    '❌ Service Excluded:',
+    ...SERVICE_EXCLUDED.map(item => `• ${item}`),
+    '',
+    contactBlock()
   ].join('\n');
 
-  const buttons = Markup.inlineKeyboard([
-    ...(PUBLIC_URL ? [[Markup.button.webApp('📷 View in Mini App', `${PUBLIC_URL}/app#apartments`)]] : []),
+  return ctx.reply(text, Markup.inlineKeyboard([
+    ...(PUBLIC_URL ? [[Markup.button.webApp('📷 View Photo Gallery', `${PUBLIC_URL}/app?room=${key}#apartments`)]] : []),
     [Markup.button.callback('📅 Book This Apartment', `book:${key}`)],
     [Markup.button.callback('⬅️ Apartments', 'apartments')]
-  ]);
-  return ctx.reply(text, buttons);
+  ]));
 }
 
 function matchAutoReply(text) {
   const t = text.toLowerCase();
   const rules = [
-    { keys: ['price', 'cost', 'rent', 'តម្លៃ', '多少钱', '价格'], reply: '💰 Please open the Mini App for apartment sizes and submit an inquiry for the latest price.' },
-    { keys: ['available', 'availability', 'vacant', 'ទំនេរ', '有房', '空房'], reply: '🟢 Availability changes frequently. Please submit an inquiry and our staff will confirm quickly.' },
+    { keys: ['price', 'cost', 'rent', 'តម្លៃ', '多少钱', '价格'], reply: `💰 Please contact us for the latest price.\n\n${contactBlock()}` },
+    { keys: ['available', 'availability', 'vacant', 'ទំនេរ', '有房', '空房'], reply: `🟢 Availability changes frequently. Please contact us for confirmation.\n\n${contactBlock()}` },
     { keys: ['location', 'address', 'where', 'ទីតាំង', '地址', '在哪里'], reply: `📍 Maline Exclusive Serviced Apartments is in central Phnom Penh.${GOOGLE_MAPS_URL ? `\n${GOOGLE_MAPS_URL}` : ''}` },
-    { keys: ['phone', 'contact', 'reception', 'ទាក់ទង', '电话', '联系'], reply: `📞 Reception: ${RECEPTION_PHONE}` },
-    { keys: ['pool', 'gym', 'sauna', 'steam', 'parking', 'wifi', 'facility', 'បរិក្ខារ', '泳池', '健身房'], reply: '🏊 Facilities include swimming pool, gym, steam and sauna, parking, Wi-Fi, security and reception service.' },
+    { keys: ['phone', 'contact', 'reception', 'ទាក់ទង', '电话', '联系'], reply: contactBlock() },
+    { keys: ['pool', 'gym', 'sauna', 'steam', 'parking', 'wifi', 'facility', 'បរិក្ខារ', '泳池', '健身房'], reply: `🏊 Facilities include pool, professional gym, steam, sauna, kids playground, parking, Wi-Fi and reception.\n\n${contactBlock()}` },
     { keys: ['studio', '1 bedroom', 'one bedroom', '2 bedroom', 'two bedroom', 'penthouse'], reply: '🏨 We offer Studio 50 sqm, 1 Bedroom 84/91 sqm, 2 Bedroom 130/138/148/150 sqm, and Penthouses PHA 551, PHB 465, PHC 435 sqm.' }
   ];
   return rules.find(rule => rule.keys.some(key => t.includes(key)))?.reply || null;
@@ -159,6 +227,7 @@ function matchAutoReply(text) {
 async function sendInquiryToStaff(inquiry) {
   const groupId = staffGroupId();
   if (!groupId) return;
+
   const text = [
     '🌸 NEW MALINE INQUIRY',
     '',
@@ -173,13 +242,25 @@ async function sendInquiryToStaff(inquiry) {
     `Budget: ${inquiry.budget || '-'}`,
     `Message: ${inquiry.message || '-'}`,
     '',
-    `Submitted: ${inquiry.createdAt}`
+    'Please contact the guest as soon as possible.',
+    '',
+    contactBlock()
   ].join('\n');
 
-  await bot.telegram.sendMessage(groupId, text, Markup.inlineKeyboard([
+  const rows = [];
+  if (inquiry.telegram && /^@?[A-Za-z0-9_]{5,}$/.test(inquiry.telegram)) {
+    rows.push([Markup.button.url(
+      '💬 Contact Guest on Telegram',
+      `https://t.me/${inquiry.telegram.replace('@', '')}`
+    )]);
+  }
+  rows.push(
     [Markup.button.callback('✅ Contacted', `inq:contacted:${inquiry.id}`)],
-    [Markup.button.callback('✔ Completed', `inq:completed:${inquiry.id}`), Markup.button.callback('❌ Cancelled', `inq:cancelled:${inquiry.id}`)]
-  ]));
+    [Markup.button.callback('✔ Completed', `inq:completed:${inquiry.id}`),
+     Markup.button.callback('❌ Cancelled', `inq:cancelled:${inquiry.id}`)]
+  );
+
+  await bot.telegram.sendMessage(groupId, text, Markup.inlineKeyboard(rows));
 }
 
 bot.start(async (ctx) => {
@@ -347,16 +428,50 @@ bot.action(/^inq:(contacted|completed|cancelled):(.+)$/, async (ctx) => {
   return ctx.editMessageText(`${ctx.callbackQuery.message.text}\n\nStatus: ${status.toUpperCase()}`);
 });
 
-bot.on('new_chat_members', async (ctx) => {
-  if (data.welcomeEnabled[String(ctx.chat.id)] === false) return;
-  for (const member of ctx.message.new_chat_members || []) {
-    if (member.is_bot) continue;
-    const name = member.first_name || 'Guest';
-    const buttons = PUBLIC_URL ? Markup.inlineKeyboard([[Markup.button.webApp('🌸 Open Maline Mini App', `${PUBLIC_URL}/app`)]]) : undefined;
-    await ctx.reply(`🌸 Welcome, ${name}!\n\nWelcome to Maline Exclusive Serviced Apartments. Explore apartments, facilities and contact reception below.`, buttons);
-    data.stats.welcomes += 1;
-  }
+const welcomeCache = new Map();
+
+async function welcomeMember(ctx, member) {
+  if (!member || member.is_bot) return;
+  const chatId = String(ctx.chat.id);
+  if (data.welcomeEnabled[chatId] === false) return;
+
+  const key = `${chatId}:${member.id}`;
+  const lastTime = welcomeCache.get(key) || 0;
+  if (Date.now() - lastTime < 120000) return;
+  welcomeCache.set(key, Date.now());
+
+  const rows = [];
+  if (PUBLIC_URL) rows.push([Markup.button.webApp('🌸 Open Maline Mini App', `${PUBLIC_URL}/app`)]);
+  if (RECEPTION_TELEGRAM) rows.push([Markup.button.url('💬 Contact Us', RECEPTION_TELEGRAM)]);
+
+  await ctx.reply([
+    `🌸 Welcome, ${member.first_name || 'Guest'}!`,
+    '',
+    'Welcome to Maline Exclusive Serviced Apartments.',
+    'Explore our apartments, facilities and schedule a viewing.',
+    '',
+    contactBlock()
+  ].join('\n'), Markup.inlineKeyboard(rows));
+
+  data.stats.welcomes += 1;
   saveData();
+}
+
+bot.on('new_chat_members', async (ctx) => {
+  for (const member of ctx.message.new_chat_members || []) {
+    await welcomeMember(ctx, member);
+  }
+});
+
+bot.on('chat_member', async (ctx) => {
+  const update = ctx.update.chat_member;
+  const oldStatus = update.old_chat_member?.status;
+  const newStatus = update.new_chat_member?.status;
+  const joined =
+    ['left', 'kicked'].includes(oldStatus) &&
+    ['member', 'administrator', 'creator', 'restricted'].includes(newStatus);
+
+  if (joined) await welcomeMember(ctx, update.new_chat_member?.user);
 });
 
 bot.on('text', async (ctx, next) => {
@@ -367,18 +482,24 @@ bot.on('text', async (ctx, next) => {
     const pair = data.translationPairs[String(ctx.chat.id)];
     if (pair && !ctx.from.is_bot) {
       try {
-        const toA = await translate(text, { to: pair.a });
-        const detected = toA?.raw?.src || toA?.from?.language?.iso || '';
+        const first = await googleTranslate(text, pair.a);
+        const detected = String(first.detected || '').toLowerCase();
+        const aBase = pair.a.toLowerCase().split('-')[0];
+        const bBase = pair.b.toLowerCase().split('-')[0];
         let output = '';
-        if (detected.startsWith(pair.a.split('-')[0])) {
-          output = (await translate(text, { from: pair.a, to: pair.b })).text;
-        } else if (detected.startsWith(pair.b.split('-')[0])) {
-          output = toA.text;
+
+        if (detected.startsWith(aBase)) {
+          output = (await googleTranslate(text, pair.b, pair.a)).text;
+        } else if (detected.startsWith(bBase)) {
+          output = first.text;
         }
+
         if (output && output.toLowerCase() !== text.toLowerCase()) {
           data.stats.translations += 1;
           saveData();
-          return ctx.reply(`🌐 ${output}`, { reply_parameters: { message_id: ctx.message.message_id } });
+          return ctx.reply(`🌐 ${output}`, {
+            reply_parameters: { message_id: ctx.message.message_id }
+          });
         }
       } catch (error) {
         console.error('Translation error:', error.message);
@@ -445,7 +566,7 @@ const server = http.createServer(async (req, res) => {
 
   if (requestPath === '/' || requestPath === '/health') {
     res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
-    return res.end('Maline Smart Assistant V2 is running');
+    return res.end('Maline Smart Assistant V3 is running');
   }
 
   if (requestPath === '/api/config') {
@@ -454,8 +575,10 @@ const server = http.createServer(async (req, res) => {
       telegram: RECEPTION_TELEGRAM,
       website: WEBSITE,
       maps: GOOGLE_MAPS_URL,
+      serviceIncluded: SERVICE_INCLUDED,
+      serviceExcluded: SERVICE_EXCLUDED,
       apartments: Object.entries(apartments).map(([key, apt]) => ({
-        key, ...apt,
+        key, ...apt, images: galleryFor(apt.folder),
         price: data.prices[key] || 'Contact us for price',
         availability: data.availability[key] || 'Contact reception'
       }))
@@ -527,7 +650,9 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(PORT, '0.0.0.0', () => console.log(`✅ Web server running on port ${PORT}`));
-bot.launch().then(() => console.log('✅ Maline Smart Assistant V2 is running')).catch(console.error);
+bot.launch({ allowedUpdates: ['message', 'callback_query', 'chat_member', 'my_chat_member'] })
+  .then(() => console.log('✅ Maline Smart Assistant V3 is running'))
+  .catch(console.error);
 
 process.once('SIGINT', () => { bot.stop('SIGINT'); server.close(); });
 process.once('SIGTERM', () => { bot.stop('SIGTERM'); server.close(); });
