@@ -10,7 +10,7 @@ const BOT_TOKEN = process.env.BOT_TOKEN;
 const OWNER_ID = Number(process.env.OWNER_ID || 0);
 const DEFAULT_STAFF_GROUP_ID = String(process.env.STAFF_GROUP_ID || '');
 const RECEPTION_PHONE = process.env.RECEPTION_PHONE || '+855 23 987 888';
-const RECEPTION_TELEGRAM = process.env.RECEPTION_TELEGRAM || '';
+const RECEPTION_TELEGRAM = process.env.RECEPTION_TELEGRAM || '099 533347';
 const WEBSITE = process.env.WEBSITE || 'https://www.malineapartments.com.kh';
 const GOOGLE_MAPS_URL = process.env.GOOGLE_MAPS_URL || '';
 const PUBLIC_URL = String(process.env.PUBLIC_URL || '').replace(/\/$/, '');
@@ -161,7 +161,7 @@ function mainKeyboard() {
 }
 
 async function safeMainMenu(ctx) {
-  const building = path.join(__dirname, 'web', 'images', 'building.jpg');
+  const building = path.join(__dirname, 'web', 'images', 'building1.jpg');
   const caption = [
     '🌸 Welcome to Maline Exclusive Serviced Apartments',
     '',
