@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#d92f85">
+  <title>Maline Exclusive Serviced Apartments</title>
+  <link rel="stylesheet" href="/web/style.css">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+  <div class="splash" id="splash">
+    <div class="splash-ring"></div>
+    <img src="/web/images/logo.png" alt="Maline logo">
+    <p>Exclusive Serviced Apartments</p>
+  </div>
+
+  <header class="hero" id="home">
+    <div class="hero-bg"></div>
+    <div class="hero-gradient"></div>
+    <div class="sparkles" aria-hidden="true">
+      <i></i><i></i><i></i><i></i><i></i><i></i>
+    </div>
+
+    <nav class="topbar">
+      <img class="brand-logo" src="/web/images/logo.png" alt="Maline Apartments">
+      <button class="language-pill" id="langBtn" type="button" aria-label="Change language">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Zm7.4-11h-3.1a15.7 15.7 0 0 0-1.2-5A8 8 0 0 1 19.4 11ZM12 4c1.1 1.4 1.9 3.8 2.2 7H9.8c.3-3.2 1.1-5.6 2.2-7ZM8.9 6a15.7 15.7 0 0 0-1.2 5H4.6A8 8 0 0 1 8.9 6ZM4.6 13h3.1c.2 1.9.6 3.6 1.2 5A8 8 0 0 1 4.6 13Zm7.4 7c-1.1-1.4-1.9-3.8-2.2-7h4.4c-.3 3.2-1.1 5.6-2.2 7Zm3.1-2a15.7 15.7 0 0 0 1.2-5h3.1a8 8 0 0 1-4.3 5Z"/></svg>
+        <span>EN</span>
+      </button>
+    </nav>
+
+    <div class="hero-copy">
+      <div class="eyebrow-light">
+        <span></span>
+        <b data-i18n="eyebrow">EXCLUSIVE SERVICED APARTMENTS</b>
+      </div>
+      <h1 data-i18n="heroTitle">Luxury Living<br>in Phnom Penh</h1>
+      <p data-i18n="heroText">Spacious homes, premium facilities and attentive service in the heart of the city.</p>
+      <div class="hero-actions">
+        <a class="primary-action" href="#apartments">
+          <svg viewBox="0 0 24 24"><path d="M3 10.8 12 3l9 7.8v9.7a.5.5 0 0 1-.5.5H15v-6H9v6H3.5a.5.5 0 0 1-.5-.5v-9.7Z"/></svg>
+          <span data-i18n="explore">Explore Apartments</span>
+        </a>
+        <a class="glass-action" href="#booking">
+          <svg viewBox="0 0 24 24"><path d="M7 2v3M17 2v3M3 9h18M5 5h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"/></svg>
+          <span data-i18n="bookViewing">Book a Viewing</span>
+        </a>
+      </div>
+      <div class="scroll-hint">
+        <span class="mouse"><i></i></span>
+        <span data-i18n="scroll">Scroll to discover</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="quick-stats reveal">
+      <article><svg viewBox="0 0 24 24"><path d="M4 20V6l8-4 8 4v14M8 9h2m4 0h2M8 13h2m4 0h2M8 17h2m4 0h2"/></svg><strong>50–551</strong><span data-i18n="sizes">sqm residences</span></article>
+      <article><svg viewBox="0 0 24 24"><path d="M12 3 4 6v5c0 5.2 3.4 8.7 8 10 4.6-1.3 8-4.8 8-10V6l-8-3Zm-3 9 2 2 4-5"/></svg><strong>24/7</strong><span data-i18n="security">Security & reception</span></article>
+      <article><svg viewBox="0 0 24 24"><path d="M4 6h16v12H4zM7 10h10M7 14h6"/></svg><strong>3</strong><span data-i18n="languages">App languages</span></article>
+    </section>
+
+    <section class="section reveal" id="apartments">
+      <div class="section-title">
+        <p class="pink-kicker" data-i18n="residences">OUR RESIDENCES</p>
+        <h2 data-i18n="chooseApartment">Choose your apartment</h2>
+        <p data-i18n="galleryNote">Open any room to view its photo gallery, price and availability.</p>
+      </div>
+      <div class="room-filters" id="filters">
+        <button class="active" data-filter="all" type="button">All</button>
+        <button data-filter="studio" type="button">Studio</button>
+        <button data-filter="one" type="button">1 Bedroom</button>
+        <button data-filter="two" type="button">2 Bedroom</button>
+        <button data-filter="penthouse" type="button">Penthouse</button>
+      </div>
+      <div id="rooms" class="rooms"></div>
+    </section>
+
+    <section class="showcase reveal">
+      <div class="showcase-overlay"></div>
+      <div>
+        <p class="pink-kicker" data-i18n="premiumComfort">PREMIUM COMFORT</p>
+        <h2 data-i18n="privateHome">Your private home above the city</h2>
+        <p data-i18n="showcaseText">Enjoy generous living space, thoughtful service and convenient access to central Phnom Penh.</p>
+      </div>
+    </section>
+
+    <section class="details section reveal">
+      <div class="service-panel included">
+        <div class="panel-icon"><svg viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></svg></div>
+        <p class="pink-kicker" data-i18n="propertyDetail">PROPERTY DETAIL</p>
+        <h2 data-i18n="serviceIncluded">Service Included</h2>
+        <ul id="included"></ul>
+      </div>
+      <div class="service-panel excluded">
+        <div class="panel-icon"><svg viewBox="0 0 24 24"><path d="M12 8v5m0 4h.01M10.3 3.5 2.6 17a2 2 0 0 0 1.7 3h15.4a2 2 0 0 0 1.7-3L13.7 3.5a2 2 0 0 0-3.4 0Z"/></svg></div>
+        <p class="pink-kicker" data-i18n="pleaseNote">PLEASE NOTE</p>
+        <h2 data-i18n="serviceExcluded">Service Excluded</h2>
+        <ul id="excluded"></ul>
+      </div>
+    </section>
+
+    <section class="section reveal" id="facilities">
+      <div class="section-title">
+        <p class="pink-kicker" data-i18n="lifestyle">LIFESTYLE</p>
+        <h2 data-i18n="facilitiesTitle">Premium facilities</h2>
+        <p data-i18n="facilitiesText">Everything you need for wellness, relaxation and family living.</p>
+      </div>
+      <div class="facilities">
+        <article><img src="/web/images/pool.jpg" alt="Swimming pool"><div class="facility-label"><svg viewBox="0 0 24 24"><path d="M3 15c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2M3 19c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2M6 13V7a3 3 0 0 1 6 0v6M12 9h5"/></svg><b>Swimming Pool</b></div></article>
+        <article><img src="/web/images/gym.jpg" alt="Professional gym"><div class="facility-label"><svg viewBox="0 0 24 24"><path d="M7 8v8M3 10v4M17 8v8M21 10v4M7 12h10"/></svg><b>Professional Gym</b></div></article>
+        <article><img src="/web/images/sauna.jpg" alt="Steam and sauna"><div class="facility-label"><svg viewBox="0 0 24 24"><path d="M8 3c-2 2 2 3 0 5s2 3 0 5M14 3c-2 2 2 3 0 5s2 3 0 5M4 17h16v4H4z"/></svg><b>Steam & Sauna</b></div></article>
+        <article><img src="/web/images/playground.jpg" alt="Kids playground"><div class="facility-label"><svg viewBox="0 0 24 24"><path d="M12 3a3 3 0 1 0 0 6 3 3 0 0 0 0-6ZM5 21v-5l4-3 3 2 3-2 4 3v5M9 13l-1-3M15 13l1-3"/></svg><b>Kids Playground</b></div></article>
+        <article><img src="/web/images/lobby.jpg" alt="Lobby and reception"><div class="facility-label"><svg viewBox="0 0 24 24"><path d="M3 20h18M5 20v-9h14v9M8 11V7h8v4M10 15h4"/></svg><b>Lobby & Reception</b></div></article>
+        <article><img src="/web/images/parking.jpg" alt="Parking"><div class="facility-label"><svg viewBox="0 0 24 24"><path d="M6 21V3h7a5 5 0 0 1 0 10H6M10 7h3a1 1 0 0 1 0 2h-3"/></svg><b>In-house Parking</b></div></article>
+      </div>
+    </section>
+
+    <section class="booking section reveal" id="booking">
+      <div class="section-title">
+        <p class="pink-kicker" data-i18n="schedule">SCHEDULE A VIEWING</p>
+        <h2 data-i18n="sendInquiry">Send your inquiry</h2>
+        <p data-i18n="staffReceive">Our staff group will receive your request immediately.</p>
+      </div>
+      <form id="form">
+        <label><span data-i18n="fullName">Full name *</span><input name="name" required autocomplete="name"></label>
+        <label><span data-i18n="phone">Phone number *</span><input name="phone" required inputmode="tel" autocomplete="tel"></label>
+        <label><span>Telegram</span><input name="telegram" placeholder="@username"></label>
+        <label><span>Email</span><input name="email" type="email" autocomplete="email"></label>
+        <label class="full"><span data-i18n="apartment">Apartment *</span><select name="apartment" id="roomSelect" required><option value="">Choose apartment</option></select></label>
+        <label><span data-i18n="checkIn">Check-in date *</span><div class="date-wrap"><input name="checkIn" type="date" required></div></label>
+        <label><span data-i18n="stay">Length of stay *</span><select name="stay" required><option value="">Select stay</option><option>1–3 months</option><option>3–6 months</option><option>6–12 months</option><option>12+ months</option></select></label>
+        <label class="full"><span data-i18n="budget">Monthly budget</span><input name="budget" placeholder="USD"></label>
+        <label class="full"><span data-i18n="request">Special request</span><textarea name="message" rows="4"></textarea></label>
+        <button class="submit-btn" type="submit">
+          <svg viewBox="0 0 24 24"><path d="m3 11 18-8-8 18-2-8-8-2Zm8 2 4-4"/></svg>
+          <span data-i18n="submit">Send Inquiry</span>
+          <i class="loader" hidden></i>
+        </button>
+        <p id="status" class="status" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section class="contact reveal">
+      <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M21 15.5a4.5 4.5 0 0 1-4.5 4.5H8l-5 2 1.5-4A8.5 8.5 0 1 1 21 15.5Z"/></svg></div>
+      <p class="pink-kicker">CONTACT US</p>
+      <h2 data-i18n="contactTitle">Schedule your private viewing</h2>
+      <div class="contact-links">
+        <a href="https://t.me/nochml"><svg viewBox="0 0 24 24"><path d="m21 4-3 16-6-4-3 3-1-5-5-2 18-8Z"/></svg>Telegram</a>
+        <a href="tel:077548220"><svg viewBox="0 0 24 24"><path d="M6.6 3 10 7l-2 3c1.4 2.8 3.2 4.6 6 6l3-2 4 3.4c-1 3-3 4.2-5.5 3.5C8.7 19 5 15.3 3.1 8.5 2.4 6 3.6 4 6.6 3Z"/></svg>077 54 82 20</a>
+        <a href="https://www.malineapartments.com.kh"><svg viewBox="0 0 24 24"><path d="M3 5h18v14H3zM3 8h18M7 12h4M7 15h8"/></svg>Website</a>
+      </div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+    <a href="#home" class="active"><svg viewBox="0 0 24 24"><path d="M3 11 12 3l9 8v10h-6v-6H9v6H3z"/></svg><span>Home</span></a>
+    <a href="#apartments"><svg viewBox="0 0 24 24"><path d="M4 20V6l8-4 8 4v14M8 9h2m4 0h2M8 13h2m4 0h2M8 17h2m4 0h2"/></svg><span>Rooms</span></a>
+    <a href="#facilities"><svg viewBox="0 0 24 24"><path d="M3 15c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2M3 19c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2"/></svg><span>Facilities</span></a>
+    <a href="#booking"><svg viewBox="0 0 24 24"><path d="M7 2v3M17 2v3M3 9h18M5 5h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"/></svg><span>Book</span></a>
+  </nav>
+
+  <div id="modal" class="modal" hidden>
+    <div class="backdrop" data-close></div>
+    <article class="modal-card">
+      <button class="close" data-close type="button" aria-label="Close">×</button>
+      <div class="gallery" id="gallery">
+        <img id="galleryImg" alt="">
+        <button id="prev" class="gallery-arrow prev" type="button" aria-label="Previous photo">‹</button>
+        <button id="next" class="gallery-arrow next" type="button" aria-label="Next photo">›</button>
+        <span id="counter"></span>
+        <div class="dots" id="dots"></div>
+      </div>
+      <div class="modal-text">
+        <p class="pink-kicker" id="modalSize"></p>
+        <h2 id="modalTitle"></h2>
+        <p id="modalMeta"></p>
+        <button id="choose" class="choose-btn" type="button">
+          <svg viewBox="0 0 24 24"><path d="M7 2v3M17 2v3M3 9h18M5 5h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"/></svg>
+          Book this apartment
+        </button>
+      </div>
+    </article>
+  </div>
+
+  <script src="/web/app.js"></script>
+</body>
+</html>
