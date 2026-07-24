@@ -1,37 +1,64 @@
-# Maline Pink Telegram Mini App
+# Maline Smart Assistant V2
 
-## Replace these files
+## What is included
+- Animated luxury Telegram Mini App
+- Building background and parallax scrolling
+- Studio, 1-bedroom, 2-bedroom and penthouse inventory
+- Booking inquiry form sent to the Telegram staff group
+- Group welcome messages
+- Group automatic replies
+- Group two-language automatic translation
+- Owner/admin commands
+- Inquiry status buttons in the staff group
+- English, Khmer and Chinese Mini App interface
 
-1. Replace your old `index.js` with the new `index.js`.
-2. Create a folder named `web`.
-3. Put `index.html` inside the `web` folder.
-4. Replace `package.json`.
-5. Copy `.env.example` to `.env`.
-6. Put your NEW BotFather token in `.env`.
+## Required image filenames
+Put your existing Maline photos inside `web/images/` using these exact names:
 
-## Run locally
+- logo.png
+- building.jpg
+- city-view.jpg
+- studio.jpg
+- one-bedroom-84.jpg
+- one-bedroom-91.jpg
+- two-bedroom-130.jpg
+- two-bedroom-138.jpg
+- two-bedroom-148.jpg
+- two-bedroom-150.jpg
+- pha.jpg
+- phb.jpg
+- phc.jpg
+- pool.jpg
+- gym.jpg
+- sauna.jpg
+- lobby.jpg
 
-```powershell
-npm install
-npm start
-```
+## Railway variables
+Copy all variables from `.env.example` into Railway Variables.
+Do not manually create PORT on Railway.
 
-Open this in Chrome for testing:
+## First setup
+1. Upload all files to your GitHub repository.
+2. Add your photos to `web/images/`.
+3. Railway redeploys automatically.
+4. In the staff group run `/setstaffgroup`.
+5. In any guest group run `/welcome_on` and `/autoreply_on`.
+6. For translation, run `/language en zh-CN`.
 
-```text
-http://localhost:8000/app
-```
+## Admin commands
+- /admin
+- /stats
+- /addadmin USER_ID
+- /removeadmin USER_ID
+- /setstaffgroup
+- /welcome_on
+- /welcome_off
+- /autoreply_on
+- /autoreply_off
+- /language en zh-CN
+- /translation_off
+- /setprice ROOM_KEY PRICE
+- /setavailability ROOM_KEY STATUS
 
 ## Important
-
-Telegram Mini Apps require a public HTTPS address. Localhost cannot open from your phone.
-
-After deploying to Railway, put the Railway address in `.env`:
-
-```env
-PUBLIC_URL=https://your-project-name.up.railway.app
-```
-
-Then restart/redeploy the project and send `/start` to the bot again.
-
-Normal Telegram chat buttons cannot be made pink. The buttons become pink inside the Mini App after tapping the full-screen menu button.
+The free translation library is unofficial and may occasionally stop working. For reliable production translation across a large language list, connect Google Cloud Translation or another paid provider later.

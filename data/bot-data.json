@@ -1,1 +1,18 @@
-{"starts": 0}
+{
+  "users": {},
+  "admins": [],
+  "translationPairs": {},
+  "welcomeEnabled": {},
+  "autoReplyEnabled": {},
+  "prices": {},
+  "availability": {},
+  "inquiries": [],
+  "stats": {
+    "starts": 0,
+    "inquiries": 0,
+    "translations": 0,
+    "welcomes": 0,
+    "autoReplies": 0,
+    "miniAppOpens": 0
+  }
+}
