@@ -1,30 +1,14 @@
 {
-  "name": "bunthy-translation-bot-v2",
-  "version": "2.0.0",
-  "private": true,
-  "description": "Telegram two-way translation bot with SQLite statistics, admin panel and web dashboard",
-  "main": "src/index.js",
+  "name": "maline-smart-assistant-pink",
+  "version": "1.0.0",
+  "description": "Maline Apartments Telegram bot with a pink full-screen Telegram Mini App",
+  "main": "index.js",
   "type": "commonjs",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "node --watch src/index.js",
-    "check": "node scripts/check.js"
-  },
-  "engines": {
-    "node": ">=20"
+    "start": "node index.js"
   },
   "dependencies": {
-    "@vitalets/google-translate-api": "^9.2.1",
-    "better-sqlite3": "^12.2.0",
-    "bcryptjs": "^3.0.2",
-    "compression": "^1.8.1",
-    "cookie-parser": "^1.4.7",
-    "dotenv": "^16.6.1",
-    "express": "^5.1.0",
-    "express-rate-limit": "^8.0.1",
-    "helmet": "^8.1.0",
-    "jsonwebtoken": "^9.0.2",
-    "openai": "^5.12.2",
+    "dotenv": "^16.4.5",
     "telegraf": "^4.16.3"
   }
 }
