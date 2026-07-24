@@ -161,7 +161,7 @@ function mainKeyboard() {
 }
 
 async function safeMainMenu(ctx) {
-  const building = path.join(__dirname, 'web', 'images', 'building1.jpg');
+  const building = path.join(__dirname, 'web', 'images', 'building-v2.jpg');
   const caption = [
     '🌸 Welcome to Maline Exclusive Serviced Apartments',
     '',
