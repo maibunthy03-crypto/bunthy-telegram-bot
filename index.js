@@ -9,7 +9,7 @@ const { Telegraf, Markup, Input } = require('telegraf');
 const BOT_TOKEN = process.env.BOT_TOKEN;
 const OWNER_ID = Number(process.env.OWNER_ID || 0);
 const DEFAULT_STAFF_GROUP_ID = String(process.env.STAFF_GROUP_ID || '');
-const RECEPTION_PHONE = process.env.RECEPTION_PHONE || '+855 23 985 959';
+const RECEPTION_PHONE = process.env.RECEPTION_PHONE || '+855 23 987 888';
 const RECEPTION_TELEGRAM = process.env.RECEPTION_TELEGRAM || '';
 const WEBSITE = process.env.WEBSITE || 'https://www.malineapartments.com.kh';
 const GOOGLE_MAPS_URL = process.env.GOOGLE_MAPS_URL || '';
@@ -69,8 +69,9 @@ const apartments = {
   two148: { title: '2 Bedroom Apartment', size: '148 sqm', folder: 'two-bedroom-148' },
   two150: { title: '2 Bedroom Apartment', size: '150 sqm', folder: 'two-bedroom-150' },
   three176: { title: '3 Bedroom Apartment', size: '176 sqm', folder: 'three-bedroom-176' },
-
   pha551: { title: 'Penthouse A (PHA)', size: '551 sqm', folder: 'pha' },
+  phb465: { title: 'Penthouse B (PHB)', size: '465 sqm', folder: 'phb' },
+  phc435: { title: 'Penthouse C (PHC)', size: '435 sqm', folder: 'phc' }
 };
 
 function galleryFor(folder) {
