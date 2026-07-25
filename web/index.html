@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#d92f85">
   <title>Maline Exclusive Serviced Apartments</title>
-  <link rel="stylesheet" href="/web/style.css">
+  <link rel="stylesheet" href="/web/style.css?v=3.1">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 
@@ -169,7 +169,7 @@
         <h2 data-i18n="sendInquiry">Send your inquiry</h2>
         <p data-i18n="staffReceive">Our staff group will receive your request immediately.</p>
       </div>
-      <form id="form">
+      <form id="form" autocomplete="on">
         <label><span data-i18n="fullName">Full name *</span><input name="name" required autocomplete="name"></label>
         <label><span data-i18n="phone">Phone number *</span><input name="phone" required inputmode="tel"
             autocomplete="tel"></label>
@@ -180,7 +180,10 @@
             <option value="">Choose apartment</option>
           </select></label>
         <label><span data-i18n="checkIn">Check-in date *</span>
-          <div class="date-wrap"><input name="checkIn" type="date" required></div>
+          <div class="date-wrap"><input id="checkIn" name="checkIn" type="date" required></div>
+        </label>
+        <label><span data-i18n="checkOut">Check-out date *</span>
+          <div class="date-wrap"><input id="checkOut" name="checkOut" type="date" required></div>
         </label>
         <label><span data-i18n="stay">Length of stay *</span><select name="stay" required>
             <option value="">Select stay</option>
@@ -211,14 +214,14 @@
       <p class="pink-kicker">CONTACT US</p>
       <h2 data-i18n="contactTitle">Schedule your private viewing</h2>
       <div class="contact-links">
-        <a href="https://t.me/nochml"><svg viewBox="0 0 24 24">
+        <a href="https://t.me/nochml" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24">
             <path d="m21 4-3 16-6-4-3 3-1-5-5-2 18-8Z" />
           </svg>Telegram</a>
         <a href="tel:077548220"><svg viewBox="0 0 24 24">
             <path
               d="M6.6 3 10 7l-2 3c1.4 2.8 3.2 4.6 6 6l3-2 4 3.4c-1 3-3 4.2-5.5 3.5C8.7 19 5 15.3 3.1 8.5 2.4 6 3.6 4 6.6 3Z" />
           </svg>077 54 82 20</a>
-        <a href="https://www.malineapartments.com.kh"><svg viewBox="0 0 24 24">
+        <a href="https://www.malineapartments.com.kh" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24">
             <path d="M3 5h18v14H3zM3 8h18M7 12h4M7 15h8" />
           </svg>Website</a>
       </div>
@@ -265,7 +268,7 @@
     </article>
   </div>
 
-  <script src="/web/app.js"></script>
+  <script src="/web/app.js?v=3.1"></script>
 </body>
 
 </html>
