@@ -1,274 +1,1136 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#d92f85">
-  <title>Maline Exclusive Serviced Apartments</title>
-  <link rel="stylesheet" href="/web/style.css?v=3.1">
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  >
+
+  <meta
+    name="theme-color"
+    content="#d92f85"
+  >
+
+  <meta
+    name="description"
+    content="Explore luxury serviced apartments, facilities and penthouses at Maline Exclusive Serviced Apartments in Phnom Penh."
+  >
+
+  <title>
+    Maline Exclusive Serviced Apartments
+  </title>
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Roboto:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <link
+    rel="stylesheet"
+    href="/web/style.css?v=4.0.0"
+  >
+
+  <script
+    src="https://telegram.org/js/telegram-web-app.js"
+  ></script>
+
+  <script
+    src="/web/app.js?v=4.0.0"
+    defer
+  ></script>
 </head>
 
 <body>
-  <div class="splash" id="splash">
-    <div class="splash-ring"></div>
-    <img src="/web/images/logo.png" alt="Maline logo">
-    <p>Exclusive Serviced Apartments</p>
+  <!-- =========================================
+       SPLASH SCREEN
+       ========================================= -->
+
+  <div
+    id="splash"
+    class="splash"
+    aria-hidden="true"
+  >
+    <div class="splash-logo">
+      <span class="splash-mark">M</span>
+
+      <div>
+        <strong>Maline</strong>
+        <small>Exclusive Serviced Apartments</small>
+      </div>
+    </div>
+
+    <div class="splash-loader"></div>
   </div>
 
-  <header class="hero" id="home">
-    <div class="hero-bg"></div>
-    <div class="hero-gradient"></div>
-    <div class="sparkles" aria-hidden="true">
-      <i></i><i></i><i></i><i></i><i></i><i></i>
-    </div>
+  <!-- =========================================
+       HEADER
+       ========================================= -->
 
-    <nav class="topbar">
-      <img class="brand-logo" src="/web/images/logo.png" alt="Maline Apartments">
-      <button class="language-pill" id="langBtn" type="button" aria-label="Change language">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path
-            d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Zm7.4-11h-3.1a15.7 15.7 0 0 0-1.2-5A8 8 0 0 1 19.4 11ZM12 4c1.1 1.4 1.9 3.8 2.2 7H9.8c.3-3.2 1.1-5.6 2.2-7ZM8.9 6a15.7 15.7 0 0 0-1.2 5H4.6A8 8 0 0 1 8.9 6ZM4.6 13h3.1c.2 1.9.6 3.6 1.2 5A8 8 0 0 1 4.6 13Zm7.4 7c-1.1-1.4-1.9-3.8-2.2-7h4.4c-.3 3.2-1.1 5.6-2.2 7Zm3.1-2a15.7 15.7 0 0 0 1.2-5h3.1a8 8 0 0 1-4.3 5Z" />
-        </svg>
-        <span>EN</span>
-      </button>
-    </nav>
+  <header class="top-header">
+    <a
+      class="brand"
+      href="#home"
+      aria-label="Maline Apartments home"
+    >
+      <span class="brand-mark">M</span>
 
-    <div class="hero-copy">
-      <div class="eyebrow-light">
-        <span></span>
-        <b data-i18n="eyebrow">EXCLUSIVE SERVICED APARTMENTS</b>
-      </div>
-      <h1 data-i18n="heroTitle">Luxury Living<br>in Phnom Penh</h1>
-      <p data-i18n="heroText">Spacious homes, premium facilities and attentive service in the heart of the city.</p>
-      <div class="hero-actions">
-        <a class="primary-action" href="#apartments">
-          <svg viewBox="0 0 24 24">
-            <path d="M3 10.8 12 3l9 7.8v9.7a.5.5 0 0 1-.5.5H15v-6H9v6H3.5a.5.5 0 0 1-.5-.5v-9.7Z" />
-          </svg>
-          <span data-i18n="explore">Explore Apartments</span>
-        </a>
-        <a class="glass-action" href="#booking">
-          <svg viewBox="0 0 24 24">
-            <path d="M7 2v3M17 2v3M3 9h18M5 5h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z" />
-          </svg>
-          <span data-i18n="bookViewing">Book a Viewing</span>
-        </a>
-      </div>
-      <div class="scroll-hint">
-        <span class="mouse"><i></i></span>
-        <span data-i18n="scroll">Scroll to discover</span>
-      </div>
-    </div>
+      <span class="brand-text">
+        <strong>Maline</strong>
+        <small>Exclusive Serviced Apartments</small>
+      </span>
+    </a>
+
+    <button
+      id="langBtn"
+      class="language-button"
+      type="button"
+      aria-label="Change language"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <circle cx="12" cy="12" r="9"></circle>
+        <path d="M3 12h18"></path>
+        <path d="M12 3c3 3 4.5 6 4.5 9S15 18 12 21"></path>
+        <path d="M12 3c-3 3-4.5 6-4.5 9S9 18 12 21"></path>
+      </svg>
+
+      <span>EN</span>
+    </button>
   </header>
 
   <main>
-    <section class="quick-stats reveal">
-      <article><svg viewBox="0 0 24 24">
-          <path d="M4 20V6l8-4 8 4v14M8 9h2m4 0h2M8 13h2m4 0h2M8 17h2m4 0h2" />
-        </svg><strong>50–551</strong><span data-i18n="sizes">sqm residences</span></article>
-      <article><svg viewBox="0 0 24 24">
-          <path d="M12 3 4 6v5c0 5.2 3.4 8.7 8 10 4.6-1.3 8-4.8 8-10V6l-8-3Zm-3 9 2 2 4-5" />
-        </svg><strong>24/7</strong><span data-i18n="security">Security & reception</span></article>
-      <article><svg viewBox="0 0 24 24">
-          <path d="M4 6h16v12H4zM7 10h10M7 14h6" />
-        </svg><strong>3</strong><span data-i18n="languages">App languages</span></article>
+    <!-- =========================================
+         HERO SECTION
+         ========================================= -->
+
+    <section
+      id="home"
+      class="hero-section"
+    >
+      <div class="hero-overlay"></div>
+
+      <div class="hero-orb hero-orb-one"></div>
+      <div class="hero-orb hero-orb-two"></div>
+
+      <div class="hero-content">
+        <p
+          class="section-eyebrow hero-eyebrow"
+          data-i18n="eyebrow"
+        >
+          EXCLUSIVE SERVICED APARTMENTS
+        </p>
+
+        <h1 data-i18n="heroTitle">
+          Luxury Living<br>
+          in Phnom Penh
+        </h1>
+
+        <p
+          class="hero-description"
+          data-i18n="heroText"
+        >
+          Spacious residences, premium facilities and attentive service in the heart of Phnom Penh.
+        </p>
+
+        <div class="hero-actions">
+          <a
+            class="primary-button"
+            href="#apartments"
+          >
+            <span data-i18n="explore">
+              Explore Apartments
+            </span>
+
+            <svg
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </a>
+
+          <a
+            class="secondary-button"
+            href="#booking"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <rect
+                x="4"
+                y="5"
+                width="16"
+                height="15"
+                rx="2"
+              ></rect>
+
+              <path d="M8 3v4"></path>
+              <path d="M16 3v4"></path>
+              <path d="M4 10h16"></path>
+            </svg>
+
+            <span data-i18n="bookViewing">
+              Book a Viewing
+            </span>
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-stats">
+        <article>
+          <strong>50–551</strong>
+          <span data-i18n="sizes">
+            sqm residences
+          </span>
+        </article>
+
+        <article>
+          <strong>24/7</strong>
+          <span data-i18n="security">
+            Security & reception
+          </span>
+        </article>
+
+        <article>
+          <strong>3</strong>
+          <span data-i18n="languages">
+            App languages
+          </span>
+        </article>
+      </div>
+
+      <a
+        class="scroll-indicator"
+        href="#apartments"
+      >
+        <span data-i18n="scroll">
+          Scroll to discover
+        </span>
+
+        <svg
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path d="m6 9 6 6 6-6"></path>
+        </svg>
+      </a>
     </section>
 
-    <section class="section reveal" id="apartments">
-      <div class="section-title">
-        <p class="pink-kicker" data-i18n="residences">OUR RESIDENCES</p>
-        <h2 data-i18n="chooseApartment">Choose your apartment</h2>
-        <p data-i18n="galleryNote">Open any room to view its photo gallery, price and availability.</p>
-      </div>
-      <div class="room-filters" id="filters">
-        <button class="active" data-filter="all" type="button">All</button>
-        <button data-filter="studio" type="button">Studio</button>
-        <button data-filter="one" type="button">1 Bedroom</button>
-        <button data-filter="two" type="button">2 Bedroom</button>
-        <button data-filter="three" type="button">3 Bedroom</button>
-        <button data-filter="penthouse" type="button">Penthouse</button>
-      </div>
-      <div id="rooms" class="rooms"></div>
-    </section>
+    <!-- =========================================
+         APARTMENT SECTION
+         ========================================= -->
 
-    <section class="showcase reveal">
-      <div class="showcase-overlay"></div>
-      <div>
-        <p class="pink-kicker" data-i18n="premiumComfort">PREMIUM COMFORT</p>
-        <h2 data-i18n="privateHome">Your private home above the city</h2>
-        <p data-i18n="showcaseText">Enjoy generous living space, thoughtful service and convenient access to central
-          Phnom Penh.</p>
-      </div>
-    </section>
+    <section
+      id="apartments"
+      class="content-section apartments-section"
+    >
+      <div class="section-heading reveal">
+        <p
+          class="section-eyebrow"
+          data-i18n="residences"
+        >
+          OUR RESIDENCES
+        </p>
 
-    <section class="details section reveal">
-      <div class="service-panel included">
-        <div class="panel-icon"><svg viewBox="0 0 24 24">
-            <path d="m5 12 4 4L19 6" />
-          </svg></div>
-        <p class="pink-kicker" data-i18n="propertyDetail">PROPERTY DETAIL</p>
-        <h2 data-i18n="serviceIncluded">Service Included</h2>
-        <ul id="included"></ul>
-      </div>
-      <div class="service-panel excluded">
-        <div class="panel-icon"><svg viewBox="0 0 24 24">
-            <path d="M12 8v5m0 4h.01M10.3 3.5 2.6 17a2 2 0 0 0 1.7 3h15.4a2 2 0 0 0 1.7-3L13.7 3.5a2 2 0 0 0-3.4 0Z" />
-          </svg></div>
-        <p class="pink-kicker" data-i18n="pleaseNote">PLEASE NOTE</p>
-        <h2 data-i18n="serviceExcluded">Service Excluded</h2>
-        <ul id="excluded"></ul>
-      </div>
-    </section>
+        <h2 data-i18n="chooseApartment">
+          Choose your apartment
+        </h2>
 
-    <section class="section reveal" id="facilities">
-      <div class="section-title">
-        <p class="pink-kicker" data-i18n="lifestyle">LIFESTYLE</p>
-        <h2 data-i18n="facilitiesTitle">Premium facilities</h2>
-        <p data-i18n="facilitiesText">Everything you need for wellness, relaxation and family living.</p>
+        <p data-i18n="galleryNote">
+          Open any apartment to view its gallery, size, price and availability.
+        </p>
       </div>
-      <div class="facilities">
-        <article><img src="/web/images/pool.jpg" alt="Swimming pool">
-          <div class="facility-label"><svg viewBox="0 0 24 24">
-              <path
-                d="M3 15c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2M3 19c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2M6 13V7a3 3 0 0 1 6 0v6M12 9h5" />
-            </svg><b>Swimming Pool</b></div>
-        </article>
-        <article><img src="/web/images/gym.jpg" alt="Professional gym">
-          <div class="facility-label"><svg viewBox="0 0 24 24">
-              <path d="M7 8v8M3 10v4M17 8v8M21 10v4M7 12h10" />
-            </svg><b>Professional Gym</b></div>
-        </article>
-        <article><img src="/web/images/sauna.jpg" alt="Steam and sauna">
-          <div class="facility-label"><svg viewBox="0 0 24 24">
-              <path d="M8 3c-2 2 2 3 0 5s2 3 0 5M14 3c-2 2 2 3 0 5s2 3 0 5M4 17h16v4H4z" />
-            </svg><b>Steam & Sauna</b></div>
-        </article>
-        <article><img src="/web/images/playground.jpg" alt="Kids playground">
-          <div class="facility-label"><svg viewBox="0 0 24 24">
-              <path d="M12 3a3 3 0 1 0 0 6 3 3 0 0 0 0-6ZM5 21v-5l4-3 3 2 3-2 4 3v5M9 13l-1-3M15 13l1-3" />
-            </svg><b>Kids Playground</b></div>
-        </article>
-        <article><img src="/web/images/lobby.jpg" alt="Lobby and reception">
-          <div class="facility-label"><svg viewBox="0 0 24 24">
-              <path d="M3 20h18M5 20v-9h14v9M8 11V7h8v4M10 15h4" />
-            </svg><b>Lobby & Reception</b></div>
-        </article>
-        <article><img src="/web/images/parking.jpg" alt="Parking">
-          <div class="facility-label"><svg viewBox="0 0 24 24">
-              <path d="M6 21V3h7a5 5 0 0 1 0 10H6M10 7h3a1 1 0 0 1 0 2h-3" />
-            </svg><b>In-house Parking</b></div>
-        </article>
-      </div>
-    </section>
 
-    <section class="booking section reveal" id="booking">
-      <div class="section-title">
-        <p class="pink-kicker" data-i18n="schedule">SCHEDULE A VIEWING</p>
-        <h2 data-i18n="sendInquiry">Send your inquiry</h2>
-        <p data-i18n="staffReceive">Our staff group will receive your request immediately.</p>
-      </div>
-      <form id="form" autocomplete="on">
-        <label><span data-i18n="fullName">Full name *</span><input name="name" required autocomplete="name"></label>
-        <label><span data-i18n="phone">Phone number *</span><input name="phone" required inputmode="tel"
-            autocomplete="tel"></label>
-        <label><span>Telegram</span><input name="telegram" placeholder="@username"></label>
-        <label><span>Email</span><input name="email" type="email" autocomplete="email"></label>
-        <label class="full"><span data-i18n="apartment">Apartment *</span><select name="apartment" id="roomSelect"
-            required>
-            <option value="">Choose apartment</option>
-          </select></label>
-        <label><span data-i18n="checkIn">Check-in date *</span>
-          <div class="date-wrap"><input id="checkIn" name="checkIn" type="date" required></div>
-        </label>
-        <label><span data-i18n="checkOut">Check-out date *</span>
-          <div class="date-wrap"><input id="checkOut" name="checkOut" type="date" required></div>
-        </label>
-        <label><span data-i18n="stay">Length of stay *</span><select name="stay" required>
-            <option value="">Select stay</option>
-            <option>1–3 months</option>
-            <option>3–6 months</option>
-            <option>6–12 months</option>
-            <option>12+ months</option>
-          </select></label>
-        <label class="full"><span data-i18n="budget">Monthly budget</span><input name="budget"
-            placeholder="USD"></label>
-        <label class="full"><span data-i18n="request">Special request</span><textarea name="message"
-            rows="4"></textarea></label>
-        <button class="submit-btn" type="submit">
-          <svg viewBox="0 0 24 24">
-            <path d="m3 11 18-8-8 18-2-8-8-2Zm8 2 4-4" />
-          </svg>
-          <span data-i18n="submit">Send Inquiry</span>
-          <i class="loader" hidden></i>
+      <div
+        class="room-filters reveal"
+        role="group"
+        aria-label="Apartment filters"
+      >
+        <button
+          class="active"
+          type="button"
+          data-filter="all"
+        >
+          All
         </button>
-        <p id="status" class="status" aria-live="polite"></p>
+
+        <button
+          type="button"
+          data-filter="studio"
+        >
+          Studio
+        </button>
+
+        <button
+          type="button"
+          data-filter="one"
+        >
+          1 Bedroom
+        </button>
+
+        <button
+          type="button"
+          data-filter="two"
+        >
+          2 Bedroom
+        </button>
+
+        <button
+          type="button"
+          data-filter="three"
+        >
+          3 Bedroom
+        </button>
+
+        <button
+          type="button"
+          data-filter="penthouse"
+        >
+          Penthouse
+        </button>
+      </div>
+
+      <div
+        id="rooms"
+        class="room-grid"
+      >
+        <div class="loading-card">
+          <div class="loading-image"></div>
+          <div class="loading-line loading-line-wide"></div>
+          <div class="loading-line"></div>
+        </div>
+
+        <div class="loading-card">
+          <div class="loading-image"></div>
+          <div class="loading-line loading-line-wide"></div>
+          <div class="loading-line"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================
+         SHOWCASE SECTION
+         ========================================= -->
+
+    <section class="showcase-section">
+      <div class="showcase-image reveal">
+        <img
+          src="/web/images/building.jpg"
+          alt="Maline Exclusive Serviced Apartments building"
+          loading="lazy"
+        >
+
+        <div class="showcase-badge">
+          <strong>Premium</strong>
+          <span>City Residence</span>
+        </div>
+      </div>
+
+      <div class="showcase-content reveal">
+        <p
+          class="section-eyebrow"
+          data-i18n="premiumComfort"
+        >
+          PREMIUM COMFORT
+        </p>
+
+        <h2 data-i18n="privateHome">
+          Your private home above the city
+        </h2>
+
+        <p data-i18n="showcaseText">
+          Enjoy generous living spaces, thoughtful service and convenient access to central Phnom Penh.
+        </p>
+
+        <div class="showcase-features">
+          <span>
+            <svg
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M20 6 9 17l-5-5"></path>
+            </svg>
+
+            Spacious residences
+          </span>
+
+          <span>
+            <svg
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M20 6 9 17l-5-5"></path>
+            </svg>
+
+            Central Phnom Penh
+          </span>
+
+          <span>
+            <svg
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M20 6 9 17l-5-5"></path>
+            </svg>
+
+            Professional service
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================
+         SERVICE DETAILS
+         ========================================= -->
+
+    <section class="content-section details-section">
+      <div class="section-heading reveal">
+        <p
+          class="section-eyebrow"
+          data-i18n="propertyDetail"
+        >
+          PROPERTY DETAILS
+        </p>
+
+        <h2>Everything for comfortable living</h2>
+      </div>
+
+      <div class="detail-columns">
+        <article class="detail-card included-card reveal">
+          <div class="detail-icon">
+            <svg
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M20 6 9 17l-5-5"></path>
+            </svg>
+          </div>
+
+          <div>
+            <p
+              class="detail-label"
+              data-i18n="serviceIncluded"
+            >
+              Services Included
+            </p>
+
+            <ul id="included">
+              <li>Loading services...</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="detail-card excluded-card reveal">
+          <div class="detail-icon">
+            <svg
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M6 6l12 12"></path>
+              <path d="M18 6 6 18"></path>
+            </svg>
+          </div>
+
+          <div>
+            <p
+              class="detail-label"
+              data-i18n="serviceExcluded"
+            >
+              Services Excluded
+            </p>
+
+            <ul id="excluded">
+              <li>Loading services...</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- =========================================
+         FACILITIES
+         ========================================= -->
+
+    <section
+      id="facilities"
+      class="content-section facilities-section"
+    >
+      <div class="section-heading reveal">
+        <p
+          class="section-eyebrow"
+          data-i18n="lifestyle"
+        >
+          LIFESTYLE
+        </p>
+
+        <h2 data-i18n="facilitiesTitle">
+          Premium Facilities
+        </h2>
+
+        <p data-i18n="facilitiesText">
+          Everything you need for wellness, relaxation and comfortable family living.
+        </p>
+      </div>
+
+      <div
+        id="facilitiesGrid"
+        class="facilities-grid"
+      >
+        <article class="facility-card reveal">
+          <span class="facility-icon">🏊</span>
+          <h3>Swimming Pool</h3>
+          <p>Relax and enjoy the outdoor swimming pool.</p>
+        </article>
+
+        <article class="facility-card reveal">
+          <span class="facility-icon">🏋️</span>
+          <h3>Fitness Center</h3>
+          <p>Modern fitness equipment for daily exercise.</p>
+        </article>
+
+        <article class="facility-card reveal">
+          <span class="facility-icon">♨️</span>
+          <h3>Steam Room</h3>
+          <p>A peaceful steam room for relaxation.</p>
+        </article>
+
+        <article class="facility-card reveal">
+          <span class="facility-icon">🧖</span>
+          <h3>Sauna</h3>
+          <p>Comfortable sauna facilities for residents.</p>
+        </article>
+
+        <article class="facility-card reveal">
+          <span class="facility-icon">🛝</span>
+          <h3>Children's Playground</h3>
+          <p>A dedicated area for children and families.</p>
+        </article>
+
+        <article class="facility-card reveal">
+          <span class="facility-icon">🚗</span>
+          <h3>Private Parking</h3>
+          <p>Convenient in-house parking for residents.</p>
+        </article>
+
+        <article class="facility-card reveal">
+          <span class="facility-icon">🛡️</span>
+          <h3>24-Hour Security</h3>
+          <p>Professional security and reception assistance.</p>
+        </article>
+
+        <article class="facility-card reveal">
+          <span class="facility-icon">🛎️</span>
+          <h3>Reception Service</h3>
+          <p>Friendly support for residents and guests.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- =========================================
+         BOOKING SECTION
+         ========================================= -->
+
+    <section
+      id="booking"
+      class="booking-section"
+    >
+      <div class="booking-intro reveal">
+        <p
+          class="section-eyebrow booking-eyebrow"
+          data-i18n="schedule"
+        >
+          SCHEDULE A VIEWING
+        </p>
+
+        <h2 data-i18n="contactTitle">
+          Schedule Your Private Viewing
+        </h2>
+
+        <p data-i18n="staffReceive">
+          Our reception and leasing staff will receive your request immediately.
+        </p>
+
+        <div class="contact-summary">
+          <a
+            id="phoneLink"
+            href="tel:+85500000000"
+          >
+            <span>☎️</span>
+            <div>
+              <small>Call reception</small>
+              <strong id="phoneText">
+                +855 00 000 000
+              </strong>
+            </div>
+          </a>
+
+          <a
+            id="emailLink"
+            href="mailto:info@malineapartments.com.kh"
+          >
+            <span>✉️</span>
+            <div>
+              <small>Email</small>
+              <strong id="emailText">
+                info@malineapartments.com.kh
+              </strong>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <form
+        id="form"
+        class="booking-form reveal"
+        novalidate
+      >
+        <div class="form-heading">
+          <h3 data-i18n="sendInquiry">
+            Send Your Inquiry
+          </h3>
+
+          <p>
+            Please complete the information below.
+          </p>
+        </div>
+
+        <div class="form-grid">
+          <label class="form-field">
+            <span data-i18n="fullName">
+              Full name *
+            </span>
+
+            <input
+              type="text"
+              name="fullName"
+              autocomplete="name"
+              placeholder="Your full name"
+              maxlength="100"
+              required
+            >
+          </label>
+
+          <label class="form-field">
+            <span data-i18n="phone">
+              Phone number *
+            </span>
+
+            <input
+              type="tel"
+              name="phone"
+              autocomplete="tel"
+              placeholder="+855..."
+              maxlength="50"
+              required
+            >
+          </label>
+
+          <label class="form-field full-width">
+            <span>Email</span>
+
+            <input
+              type="email"
+              name="email"
+              autocomplete="email"
+              placeholder="your@email.com"
+              maxlength="150"
+            >
+          </label>
+
+          <label class="form-field full-width">
+            <span data-i18n="apartment">
+              Apartment *
+            </span>
+
+            <select
+              id="roomSelect"
+              name="apartment"
+              required
+            >
+              <option
+                value=""
+                disabled
+                selected
+              >
+                Choose your apartment
+              </option>
+            </select>
+          </label>
+
+          <label class="form-field">
+            <span data-i18n="checkIn">
+              Check-in date *
+            </span>
+
+            <input
+              id="checkIn"
+              type="date"
+              name="checkIn"
+              required
+            >
+          </label>
+
+          <label class="form-field">
+            <span data-i18n="checkOut">
+              Check-out date
+            </span>
+
+            <input
+              id="checkOut"
+              type="date"
+              name="checkOut"
+            >
+          </label>
+
+          <label class="form-field">
+            <span data-i18n="stay">
+              Length of stay *
+            </span>
+
+            <select
+              name="stay"
+              required
+            >
+              <option value="">
+                Choose length of stay
+              </option>
+
+              <option value="Less than 1 month">
+                Less than 1 month
+              </option>
+
+              <option value="1–3 months">
+                1–3 months
+              </option>
+
+              <option value="3–6 months">
+                3–6 months
+              </option>
+
+              <option value="6–12 months">
+                6–12 months
+              </option>
+
+              <option value="More than 1 year">
+                More than 1 year
+              </option>
+            </select>
+          </label>
+
+          <label class="form-field">
+            <span data-i18n="budget">
+              Monthly budget
+            </span>
+
+            <select name="budget">
+              <option value="">
+                Choose budget
+              </option>
+
+              <option value="Under $1,000">
+                Under $1,000
+              </option>
+
+              <option value="$1,000–$1,500">
+                $1,000–$1,500
+              </option>
+
+              <option value="$1,500–$2,000">
+                $1,500–$2,000
+              </option>
+
+              <option value="$2,000–$3,000">
+                $2,000–$3,000
+              </option>
+
+              <option value="Above $3,000">
+                Above $3,000
+              </option>
+            </select>
+          </label>
+
+          <label class="form-field full-width">
+            <span data-i18n="request">
+              Special request
+            </span>
+
+            <textarea
+              name="request"
+              rows="5"
+              maxlength="1500"
+              placeholder="Tell us about your preferred apartment, viewing time or special request."
+            ></textarea>
+          </label>
+        </div>
+
+        <button
+          class="submit-btn"
+          type="submit"
+        >
+          <span
+            class="loader"
+            hidden
+          ></span>
+
+          <span data-submit-text data-i18n="submit">
+            Send Inquiry
+          </span>
+
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path d="m22 2-7 20-4-9-9-4Z"></path>
+            <path d="M22 2 11 13"></path>
+          </svg>
+        </button>
+
+        <div
+          id="status"
+          class="form-status"
+          role="status"
+          aria-live="polite"
+        ></div>
       </form>
     </section>
 
-    <section class="contact reveal">
-      <div class="contact-icon"><svg viewBox="0 0 24 24">
-          <path d="M21 15.5a4.5 4.5 0 0 1-4.5 4.5H8l-5 2 1.5-4A8.5 8.5 0 1 1 21 15.5Z" />
-        </svg></div>
-      <p class="pink-kicker">CONTACT US</p>
-      <h2 data-i18n="contactTitle">Schedule your private viewing</h2>
-      <div class="contact-links">
-        <a href="https://t.me/nochml" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24">
-            <path d="m21 4-3 16-6-4-3 3-1-5-5-2 18-8Z" />
-          </svg>Telegram</a>
-        <a href="tel:077548220"><svg viewBox="0 0 24 24">
-            <path
-              d="M6.6 3 10 7l-2 3c1.4 2.8 3.2 4.6 6 6l3-2 4 3.4c-1 3-3 4.2-5.5 3.5C8.7 19 5 15.3 3.1 8.5 2.4 6 3.6 4 6.6 3Z" />
-          </svg>077 54 82 20</a>
-        <a href="https://www.malineapartments.com.kh" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24">
-            <path d="M3 5h18v14H3zM3 8h18M7 12h4M7 15h8" />
-          </svg>Website</a>
+    <!-- =========================================
+         CONTACT AND SOCIAL LINKS
+         ========================================= -->
+
+    <section class="contact-section">
+      <div class="section-heading reveal">
+        <p class="section-eyebrow">
+          CONNECT WITH MALINE
+        </p>
+
+        <h2>Contact our team</h2>
+
+        <p>
+          Contact reception, visit our website or follow Maline Apartments on social media.
+        </p>
+      </div>
+
+      <div class="social-links reveal">
+        <a
+          id="websiteLink"
+          href="https://malineapartments.com.kh"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span>🌐</span>
+          Website
+        </a>
+
+        <a
+          id="facebookLink"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span>📘</span>
+          Facebook
+        </a>
+
+        <a
+          id="instagramLink"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span>📸</span>
+          Instagram
+        </a>
+
+        <a
+          id="tiktokLink"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span>🎵</span>
+          TikTok
+        </a>
+
+        <a
+          id="telegramLink"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span>✈️</span>
+          Telegram
+        </a>
+
+        <a
+          id="whatsappLink"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span>💬</span>
+          WhatsApp
+        </a>
+
+        <a
+          id="mapsLink"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span>📍</span>
+          Google Maps
+        </a>
       </div>
     </section>
   </main>
 
-  <nav class="bottom-nav">
-    <a href="#home" class="active"><svg viewBox="0 0 24 24">
-        <path d="M3 11 12 3l9 8v10h-6v-6H9v6H3z" />
-      </svg><span>Home</span></a>
-    <a href="#apartments"><svg viewBox="0 0 24 24">
-        <path d="M4 20V6l8-4 8 4v14M8 9h2m4 0h2M8 13h2m4 0h2M8 17h2m4 0h2" />
-      </svg><span>Rooms</span></a>
-    <a href="#facilities"><svg viewBox="0 0 24 24">
-        <path d="M3 15c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2M3 19c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2" />
-      </svg><span>Facilities</span></a>
-    <a href="#booking"><svg viewBox="0 0 24 24">
-        <path d="M7 2v3M17 2v3M3 9h18M5 5h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z" />
-      </svg><span>Book</span></a>
-  </nav>
+  <!-- =========================================
+       FOOTER
+       ========================================= -->
 
-  <div id="modal" class="modal" hidden>
-    <div class="backdrop" data-close></div>
-    <article class="modal-card">
-      <button class="close" data-close type="button" aria-label="Close">×</button>
-      <div class="gallery" id="gallery">
-        <img id="galleryImg" alt="">
-        <button id="prev" class="gallery-arrow prev" type="button" aria-label="Previous photo">‹</button>
-        <button id="next" class="gallery-arrow next" type="button" aria-label="Next photo">›</button>
-        <span id="counter"></span>
-        <div class="dots" id="dots"></div>
+  <footer class="site-footer">
+    <div class="footer-brand">
+      <span class="brand-mark">M</span>
+
+      <div>
+        <strong>
+          Maline Exclusive Serviced Apartments
+        </strong>
+
+        <small>
+          Phnom Penh, Cambodia
+        </small>
       </div>
-      <div class="modal-text">
-        <p class="pink-kicker" id="modalSize"></p>
-        <h2 id="modalTitle"></h2>
-        <p id="modalMeta"></p>
-        <button id="choose" class="choose-btn" type="button">
-          <svg viewBox="0 0 24 24">
-            <path d="M7 2v3M17 2v3M3 9h18M5 5h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z" />
+    </div>
+
+    <p>
+      © <span id="currentYear"></span>
+      Maline Apartments. All rights reserved.
+    </p>
+  </footer>
+
+  <!-- =========================================
+       APARTMENT MODAL
+       ========================================= -->
+
+  <div
+    id="modal"
+    class="modal"
+    hidden
+  >
+    <button
+      class="modal-backdrop"
+      type="button"
+      data-close
+      aria-label="Close gallery"
+    ></button>
+
+    <section
+      class="modal-panel"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modalTitle"
+    >
+      <div class="modal-header">
+        <div>
+          <span
+            id="modalSize"
+            class="modal-size"
+          ></span>
+
+          <h2 id="modalTitle">
+            Apartment
+          </h2>
+
+          <p id="modalMeta"></p>
+        </div>
+
+        <button
+          class="modal-close"
+          type="button"
+          data-close
+          aria-label="Close"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path d="M6 6l12 12"></path>
+            <path d="M18 6 6 18"></path>
           </svg>
-          Book this apartment
         </button>
       </div>
-    </article>
+
+      <div
+        id="gallery"
+        class="gallery"
+      >
+        <img
+          id="galleryImg"
+          src="/web/images/building.jpg"
+          alt="Apartment gallery"
+        >
+
+        <button
+          id="prev"
+          class="gallery-arrow gallery-prev"
+          type="button"
+          aria-label="Previous photo"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path d="m15 18-6-6 6-6"></path>
+          </svg>
+        </button>
+
+        <button
+          id="next"
+          class="gallery-arrow gallery-next"
+          type="button"
+          aria-label="Next photo"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path d="m9 18 6-6-6-6"></path>
+          </svg>
+        </button>
+
+        <span
+          id="counter"
+          class="gallery-counter"
+        >
+          1 / 1
+        </span>
+      </div>
+
+      <div
+        id="dots"
+        class="gallery-dots"
+      ></div>
+
+      <button
+        id="choose"
+        class="choose-room-button"
+        type="button"
+      >
+        <span data-i18n="chooseThisRoom">
+          Choose This Apartment
+        </span>
+
+        <svg
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path d="m9 18 6-6-6-6"></path>
+        </svg>
+      </button>
+    </section>
   </div>
 
-  <script src="/web/app.js?v=3.1"></script>
-</body>
+  <!-- =========================================
+       BOTTOM NAVIGATION
+       ========================================= -->
 
+  <nav
+    class="bottom-nav"
+    aria-label="Main navigation"
+  >
+    <a
+      class="active"
+      href="#home"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <path d="m3 11 9-8 9 8"></path>
+        <path d="M5 10v10h14V10"></path>
+        <path d="M9 20v-6h6v6"></path>
+      </svg>
+
+      <span>Home</span>
+    </a>
+
+    <a href="#apartments">
+      <svg
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <rect
+          x="4"
+          y="3"
+          width="16"
+          height="18"
+          rx="2"
+        ></rect>
+
+        <path d="M8 7h2"></path>
+        <path d="M14 7h2"></path>
+        <path d="M8 11h2"></path>
+        <path d="M14 11h2"></path>
+        <path d="M8 15h2"></path>
+        <path d="M14 15h2"></path>
+      </svg>
+
+      <span>Rooms</span>
+    </a>
+
+    <a href="#facilities">
+      <svg
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <path d="M4 12h16"></path>
+        <path d="M6 8h12"></path>
+        <path d="M8 4h8"></path>
+        <path d="M6 16h12"></path>
+        <path d="M8 20h8"></path>
+      </svg>
+
+      <span>Facilities</span>
+    </a>
+
+    <a href="#booking">
+      <svg
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <rect
+          x="4"
+          y="5"
+          width="16"
+          height="15"
+          rx="2"
+        ></rect>
+
+        <path d="M8 3v4"></path>
+        <path d="M16 3v4"></path>
+        <path d="M4 10h16"></path>
+      </svg>
+
+      <span>Booking</span>
+    </a>
+  </nav>
+</body>
 </html>
