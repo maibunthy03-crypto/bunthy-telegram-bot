@@ -1,16 +1,18 @@
 {
-  "name": "maline-smart-assistant-v3",
-  "version": "3.0.0",
-  "private": true,
+  "name": "maline-smart-assistant-v4",
+  "version": "4.0.0",
+  "description": "Telegram Mini App for Maline Exclusive Serviced Apartments",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "node index.js"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=18"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
-    "telegraf": "^4.16.3"
+    "express": "^4.21.2",
+    "helmet": "^8.0.0"
   }
 }
