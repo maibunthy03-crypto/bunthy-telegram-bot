@@ -1,0 +1,4 @@
+"use strict";
+const ROOM_STATUSES={available:{key:"available",icon:"🟢",label:"Available Now",bookable:true},limited:{key:"limited",icon:"🟠",label:"Limited Availability",bookable:true},reserved:{key:"reserved",icon:"🟡",label:"Reserved",bookable:false},preparing:{key:"preparing",icon:"🔵",label:"Preparing",bookable:false},occupied:{key:"occupied",icon:"🔴",label:"Occupied",bookable:false},unavailable:{key:"unavailable",icon:"⚫",label:"Not Available",bookable:false},contact:{key:"contact",icon:"🩷",label:"Contact Reception",bookable:true}};
+const getRoomStatus=s=>ROOM_STATUSES[s]||ROOM_STATUSES.contact;
+module.exports={ROOM_STATUSES,getRoomStatus};
