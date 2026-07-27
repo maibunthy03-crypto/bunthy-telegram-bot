@@ -1,72 +1,59 @@
-# Maline Smart Assistant V3.1 Premium
+# Maline Telegram Mini App V3
 
-This corrected version adds:
+## 1. Add your images
+Put these files inside `web/images/`:
+- `logo.png`
+- `building.jpg`
+- `pool.jpg`, `gym.jpg`, `sauna.jpg`, `playground.jpg`, `lobby.jpg`, `parking.jpg` (optional)
 
-- Animated splash screen
-- Animated hero image and floating particles
-- Icons throughout the Mini App
-- Glassmorphism buttons and bottom navigation
-- Scroll reveal animations
-- Apartment filters
-- Touch swipe gallery
-- Photo counter and gallery dots
-- English, Khmer and Chinese interface
-- Google Cloud Translation backend from V3
-- Fixed automatic welcome from V3
-- Contact Guest button in staff inquiries
-- Full property services and facility details
+Room galleries use folders:
+- studio
+- one-bedroom-84
+- one-bedroom-91
+- two-bedroom-130
+- two-bedroom-138
+- two-bedroom-148
+- two-bedroom-150
+- three-bedroom-176
+- pha
+- phb
+- phc
 
-## Replace these files
+Inside each folder add `1.jpg` through `10.jpg`.
 
-Replace your current:
+## 2. Configure
+Copy `.env.example` to `.env`, then add:
+- BOT_TOKEN
+- OWNER_ID
+- PUBLIC_URL
+- reception contact information
 
-- index.js
-- package.json
-- web/index.html
-- web/style.css
-- web/app.js
+## 3. Run locally
+```bash
+npm install
+npm start
+```
 
-Keep your existing Railway Variables.
+Open:
+- Health: http://localhost:8080/health
+- Mini App: http://localhost:8080/app
 
-## Required facility photos
+## 4. Railway
+Upload this project to GitHub or Railway.
+Set all `.env` variables in Railway Variables.
+Use start command: `npm start`.
 
-Place these inside web/images:
+After Railway gives your HTTPS URL, put it in `PUBLIC_URL`.
+In BotFather use `/setmenubutton`, select your bot, and paste:
+`https://YOUR-RAILWAY-URL/app`
 
-- logo.png
-- building.jpg
-- city-view.jpg
-- pool.jpg
-- gym.jpg
-- sauna.jpg
-- playground.jpg
-- lobby.jpg
-- parking.jpg
+## 5. Staff group
+Add the bot to your staff Telegram group.
+Run `/setstaffgroup` inside that group from the OWNER_ID account.
 
-## Ten room photos
-
-Put 1.jpg through 10.jpg into every room folder.
-
-Example:
-
-web/images/one-bedroom-91/1.jpg
-web/images/one-bedroom-91/2.jpg
-...
-web/images/one-bedroom-91/10.jpg
-
-## Google Translation
-
-Add this Railway variable:
-
-GOOGLE_TRANSLATE_API_KEY=your_google_cloud_api_key
-
-Then use:
-
-/translation_status
-/language en zh-CN
-
-## Welcome message
-
-Make the bot an administrator, then run:
-
-/welcome_on
-/autoreply_on
+## Admin commands
+- `/id`
+- `/setstaffgroup`
+- `/setprice studio50 $1,200`
+- `/setavailability studio50 Available`
+- `/stats`
