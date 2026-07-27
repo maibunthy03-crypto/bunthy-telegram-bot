@@ -174,7 +174,6 @@ function bodyOf(req){
 }
 const mime={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'application/javascript; charset=utf-8','.json':'application/json','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.webp':'image/webp','.svg':'image/svg+xml'};
 
-<<<<<<< HEAD
 const server=http.createServer(async(req,res)=>{
   const url=new URL(req.url,`http://${req.headers.host}`);
   if(url.pathname==='/'||url.pathname==='/health'){res.writeHead(200,{'Content-Type':'text/plain'});return res.end('Maline Mini App V3 is running');}
@@ -210,9 +209,3 @@ server.listen(PORT,'0.0.0.0',()=>console.log(`✅ Web server running on port ${P
 bot.launch().then(()=>console.log('✅ Maline Telegram Mini App V3 running')).catch(console.error);
 process.once('SIGINT',()=>{bot.stop('SIGINT');server.close();});
 process.once('SIGTERM',()=>{bot.stop('SIGTERM');server.close();});
-=======
-process.on(
-  "SIGINT",
-  () => shutdown("SIGINT")
-);
->>>>>>> 766e0aa2f098b1e7ca547e34da1d3507f2b62f11

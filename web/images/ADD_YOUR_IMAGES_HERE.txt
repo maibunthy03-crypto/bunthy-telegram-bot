@@ -1,0 +1,1 @@
+Add logo.png, building.jpg, facility images, and room folders here.
