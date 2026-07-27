@@ -2,10 +2,8 @@
 require('dotenv').config();
 const fs=require('fs'), path=require('path'), http=require('http'), crypto=require('crypto');
 const {Telegraf,Markup,Input}=require('telegraf');
-const translatePackage=require('google-translate-api-x');
-const translate=typeof translatePackage==='function'?translatePackage:translatePackage.translate;
 
-const BOT_TOKEN=String(process.env.BOT_TOKEN||process.env.TELEGRAM_BOT_TOKEN||'').trim();
+const BOT_TOKEN=process.env.BOT_TOKEN;
 const OWNER_ID=Number(process.env.OWNER_ID||0);
 const DEFAULT_STAFF_GROUP_ID=String(process.env.STAFF_GROUP_ID||'');
 const PUBLIC_URL=String(process.env.PUBLIC_URL||'').replace(/\/$/,'');
@@ -13,10 +11,9 @@ const RECEPTION_PHONE=process.env.RECEPTION_PHONE||'+855 23 985 959';
 const RECEPTION_TELEGRAM=process.env.RECEPTION_TELEGRAM||'';
 const WEBSITE=process.env.WEBSITE||'https://www.malineapartments.com.kh';
 const GOOGLE_MAPS_URL=process.env.GOOGLE_MAPS_URL||'';
-const TRANSLATION_ENABLED=String(process.env.TRANSLATION_ENABLED||'true').toLowerCase()!=='false';
+const GOOGLE_TRANSLATE_API_KEY=process.env.GOOGLE_TRANSLATE_API_KEY||'';
 const PORT=Number(process.env.PORT||8080);
 if(!BOT_TOKEN){console.error('BOT_TOKEN is missing');process.exit(1)}
-if(typeof translate!=='function'){console.error('google-translate-api-x did not load correctly');process.exit(1)}
 const bot=new Telegraf(BOT_TOKEN);
 const DATA_FILE=path.join(__dirname,'data','bot-data.json');
 
@@ -48,14 +45,7 @@ function mainKeyboard(){const rows=[];if(PUBLIC_URL)rows.push([Markup.button.web
 async function safeMainMenu(ctx){const building=path.join(__dirname,'web','images','building.jpg');const caption='🌸 Welcome to Maline Exclusive Serviced Apartments\n\nLuxury serviced apartments in the heart of Phnom Penh.\nExplore rooms, facilities and send a viewing inquiry.';if(fs.existsSync(building))return ctx.replyWithPhoto(Input.fromLocalFile(building),{caption,...mainKeyboard()});return ctx.reply(caption,mainKeyboard())}
 function apartmentKeyboard(){return Markup.inlineKeyboard(Object.entries(apartments).map(([k,a])=>[Markup.button.callback(`${a.title} • ${a.size}`,`apt:${k}`)]).concat([[Markup.button.callback('⬅️ Main Menu','main')]]))}
 async function sendApartment(ctx,key){const a=apartments[key];if(!a)return;const text=`🏨 ${a.title}\n📐 ${a.size}\n💰 ${data.prices[key]||'Contact us for price'}\n🟢 Availability: ${data.availability[key]||'Contact reception'}\n\n${contactBlock()}`;const rows=[];if(PUBLIC_URL)rows.push([Markup.button.webApp('📷 View Photo Gallery',`${PUBLIC_URL}/app?room=${key}#apartments`)]);rows.push([Markup.button.callback('📅 Book This Apartment',`book:${key}`)],[Markup.button.callback('⬅️ Apartments','apartments')]);return ctx.reply(text,Markup.inlineKeyboard(rows))}
-function baseLanguage(code){return String(code||'').toLowerCase().split('-')[0]}
-function detectedLanguage(result){return baseLanguage(result?.from?.language?.iso||'')}
-async function translateText(text,target,source='auto'){
- const options={to:target,forceTo:true,autoCorrect:true};
- if(source&&source!=='auto')options.from=source;
- const result=await translate(text,options);
- return{text:String(result?.text||'').trim(),detected:detectedLanguage(result)};
-}
+async function translateText(text,target,source=''){if(!GOOGLE_TRANSLATE_API_KEY)throw new Error('GOOGLE_TRANSLATE_API_KEY missing');const body=new URLSearchParams({q:text,target,format:'text'});if(source)body.set('source',source);const r=await fetch(`https://translation.googleapis.com/language/translate/v2?key=${encodeURIComponent(GOOGLE_TRANSLATE_API_KEY)}`,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body});const j=await r.json();if(!r.ok)throw new Error(j?.error?.message||'Translation failed');const x=j.data.translations[0];return{text:x.translatedText,detected:x.detectedSourceLanguage||source}}
 function matchAutoReply(text){const t=text.toLowerCase();const rules=[{keys:['price','cost','rent','តម្លៃ','价格'],reply:`💰 Please contact us for the latest price.\n${contactBlock()}`},{keys:['available','availability','vacant','ទំនេរ','空房'],reply:`🟢 Please contact reception for current availability.\n${contactBlock()}`},{keys:['location','address','where','ទីតាំង','地址'],reply:`📍 Maline Exclusive Serviced Apartments, Phnom Penh.${GOOGLE_MAPS_URL?`\n${GOOGLE_MAPS_URL}`:''}`},{keys:['pool','gym','sauna','steam','parking','wifi','facility','បរិក្ខារ','健身房'],reply:'🏊 Pool, gym, steam, sauna, kids playground, parking, Wi-Fi and 24/7 reception.'}];return rules.find(r=>r.keys.some(k=>t.includes(k)))?.reply||null}
 async function sendInquiryToStaff(q){const gid=staffGroupId();if(!gid)return;const text=`🌸 NEW MALINE INQUIRY\n\nID: ${q.id}\nGuest: ${q.name}\nPhone: ${q.phone}\nTelegram: ${q.telegram||'-'}\nEmail: ${q.email||'-'}\nApartment: ${q.apartment}\nCheck-in: ${q.checkIn}\nCheck-out: ${q.checkOut||'-'}\nStay: ${q.stay}\nBudget: ${q.budget||'-'}\nMessage: ${q.message||'-'}`;const rows=[];if(q.telegram&&/^@?[A-Za-z0-9_]{5,}$/.test(q.telegram))rows.push([Markup.button.url('💬 Contact Guest',`https://t.me/${q.telegram.replace('@','')}`)]);rows.push([Markup.button.callback('✅ Contacted',`inq:contacted:${q.id}`)],[Markup.button.callback('✔ Completed',`inq:completed:${q.id}`),Markup.button.callback('❌ Cancelled',`inq:cancelled:${q.id}`)]);await bot.telegram.sendMessage(gid,text,Markup.inlineKeyboard(rows))}
 bot.start(async ctx=>{data.stats.starts++;data.users[String(ctx.from.id)]={name:[ctx.from.first_name,ctx.from.last_name].filter(Boolean).join(' '),username:ctx.from.username||'',lastSeen:new Date().toISOString()};saveData();await safeMainMenu(ctx)});
@@ -185,58 +175,75 @@ bot.action(/^inq:(contacted|completed|cancelled):(.+)$/,async ctx=>{if(!isAdmin(
 const welcomeCache=new Map();async function welcomeMember(ctx,m){if(!m||m.is_bot)return;const cid=String(ctx.chat.id);if(data.welcomeEnabled[cid]===false)return;const key=`${cid}:${m.id}`;if(Date.now()-(welcomeCache.get(key)||0)<120000)return;welcomeCache.set(key,Date.now());const rows=[];if(PUBLIC_URL)rows.push([Markup.button.webApp('🌸 Open Maline Mini App',`${PUBLIC_URL}/app`)]);if(RECEPTION_TELEGRAM)rows.push([Markup.button.url('💬 Contact Us',RECEPTION_TELEGRAM)]);await ctx.reply(`🌸 Welcome, ${m.first_name||'Guest'}!\n\nWelcome to Maline Exclusive Serviced Apartments.\n${contactBlock()}`,Markup.inlineKeyboard(rows));data.stats.welcomes++;saveData()}
 bot.on('new_chat_members',async ctx=>{for(const m of ctx.message.new_chat_members||[])await welcomeMember(ctx,m)});
 bot.on('chat_member',async ctx=>{const u=ctx.update.chat_member,o=u.old_chat_member?.status,n=u.new_chat_member?.status;if(['left','kicked'].includes(o)&&['member','administrator','creator','restricted'].includes(n))await welcomeMember(ctx,u.new_chat_member?.user)});
-bot.on('text',async(ctx,next)=>{
- const text=String(ctx.message?.text||'').trim();
- if(!text||text.startsWith('/'))return next();
- if(isGroup(ctx)){
-  const pair=data.translationPairs[String(ctx.chat.id)];
-  if(pair&&!ctx.from?.is_bot&&TRANSLATION_ENABLED){
-   try{
-    console.log(`📨 Message received | chat=${ctx.chat.id} | pair=${pair.a}↔${pair.b} | text=${text.slice(0,80)}`);
-    const probe=await translateText(text,pair.a);
-    const detected=baseLanguage(probe.detected);
-    const a=baseLanguage(pair.a),b=baseLanguage(pair.b);
-    let out='';
-    if(detected===b){
-      out=probe.text;
-    }else if(detected===a){
-      out=(await translateText(text,pair.b,pair.a)).text;
-    }
-    if(out&&out.toLowerCase()!==text.toLowerCase()){
-      data.stats.translations++;
-      saveData();
-      console.log(`✅ Translation sent: ${out.slice(0,100)}`);
-      return ctx.reply(`🌐 ${out}`,{reply_parameters:{message_id:ctx.message.message_id}});
-    }
-   }catch(e){
-    console.error('❌ FREE TRANSLATION ERROR:',e?.stack||e?.message||e);
-   }
-  }
-  if(data.autoReplyEnabled[String(ctx.chat.id)]!==false&&!ctx.from?.is_bot){
-   const r=matchAutoReply(text);
-   if(r){
-    data.stats.autoReplies++;
-    saveData();
-    return ctx.reply(r,{reply_parameters:{message_id:ctx.message.message_id}});
-   }
-  }
- }
- return next();
-});
+bot.on('text',async(ctx,next)=>{const text=ctx.message.text.trim();if(text.startsWith('/'))return next();if(isGroup(ctx)){const pair=data.translationPairs[String(ctx.chat.id)];if(pair&&!ctx.from.is_bot&&GOOGLE_TRANSLATE_API_KEY)try{const first=await translateText(text,pair.a);const d=String(first.detected||'').toLowerCase(),a=pair.a.toLowerCase().split('-')[0],b=pair.b.toLowerCase().split('-')[0];let out='';if(d.startsWith(a))out=(await translateText(text,pair.b,pair.a)).text;else if(d.startsWith(b))out=first.text;if(out&&out.toLowerCase()!==text.toLowerCase()){data.stats.translations++;saveData();return ctx.reply(`🌐 ${out}`,{reply_parameters:{message_id:ctx.message.message_id}})}}catch(e){console.error(e.message)}if(data.autoReplyEnabled[String(ctx.chat.id)]!==false&&!ctx.from.is_bot){const r=matchAutoReply(text);if(r){data.stats.autoReplies++;saveData();return ctx.reply(r,{reply_parameters:{message_id:ctx.message.message_id}})}}}return next()});
 bot.catch(e=>console.error('Bot error:',e));
 
 function sendJson(res,status,body){res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Access-Control-Allow-Origin':'*','Cache-Control':'no-store'});res.end(JSON.stringify(body))}
 function readBody(req){return new Promise((resolve,reject)=>{let b='';req.on('data',c=>{b+=c;if(b.length>1e6)reject(new Error('Too large'))});req.on('end',()=>resolve(b));req.on('error',reject)})}
 const MIME={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'application/javascript; charset=utf-8','.jpg':'image/jpeg','.jpeg':'image/jpeg','.png':'image/png','.webp':'image/webp','.svg':'image/svg+xml'};
-const server=http.createServer(async(req,res)=>{const requestPath=decodeURIComponent((req.url||'/').split('?')[0]);if(requestPath==='/'||requestPath==='/health'){res.writeHead(200,{'Content-Type':'text/plain'});return res.end('Maline Smart Assistant V3 is running')}if(requestPath==='/api/config')return sendJson(res,200,{phone:RECEPTION_PHONE,telegram:RECEPTION_TELEGRAM,website:WEBSITE,maps:GOOGLE_MAPS_URL,serviceIncluded:SERVICE_INCLUDED,serviceExcluded:SERVICE_EXCLUDED,apartments:Object.entries(apartments).map(([key,a])=>({key,...a,images:galleryFor(a.folder),price:data.prices[key]||'Contact us for price',availability:data.availability[key]||'Contact reception'}))});if(requestPath==='/api/open'&&req.method==='POST'){data.stats.miniAppOpens++;saveData();return sendJson(res,200,{success:true})}if(requestPath==='/api/inquiry'&&req.method==='POST')try{const b=JSON.parse(await readBody(req));for(const f of['name','phone','apartment','checkIn','stay'])if(!String(b[f]||'').trim())return sendJson(res,400,{success:false,message:'Please complete all required fields.'});const q={id:crypto.randomBytes(4).toString('hex').toUpperCase(),...b,status:'new',createdAt:new Date().toISOString()};data.inquiries.unshift(q);data.inquiries=data.inquiries.slice(0,500);data.stats.inquiries++;saveData();await sendInquiryToStaff(q);return sendJson(res,200,{success:true,inquiryId:q.id})}catch(e){return sendJson(res,500,{success:false,message:'Unable to send inquiry.'})}if(requestPath==='/app'||requestPath==='/app/')return fs.createReadStream(path.join(__dirname,'web','index.html')).pipe((res.writeHead(200,{'Content-Type':MIME['.html'],'Cache-Control':'no-cache'}),res));if(requestPath.startsWith('/web/')){const rel=path.normalize(requestPath.replace(/^\/web\//,'')).replace(/^(\.\.(\/|\\|$))+/,'');const base=path.join(__dirname,'web'),f=path.join(base,rel);if(!f.startsWith(base)||!fs.existsSync(f)||fs.statSync(f).isDirectory()){res.writeHead(404);return res.end('Not found')}res.writeHead(200,{'Content-Type':MIME[path.extname(f).toLowerCase()]||'application/octet-stream'});return fs.createReadStream(f).pipe(res)}res.writeHead(404);res.end('Not found')});
-server.listen(PORT,'0.0.0.0',()=>console.log(`✅ Web server on ${PORT}`));
+const server=http.createServer(async(req,res)=>{const requestPath=decodeURIComponent((req.url||'/').split('?')[0]);if(requestPath==='/'||requestPath==='/health'){res.writeHead(200,{'Content-Type':'text/plain'});return res.end('Maline Smart Assistant V3 is running')}if(requestPath==='/api/config')return sendJson(res,200,{phone:RECEPTION_PHONE,telegram:RECEPTION_TELEGRAM,website:WEBSITE,maps:GOOGLE_MAPS_URL,serviceIncluded:SERVICE_INCLUDED,serviceExcluded:SERVICE_EXCLUDED,apartments:Object.entries(apartments).map(([key,a])=>({key,...a,images:galleryFor(a.folder),price:data.prices[key]||'Contact us for price',availability:data.availability[key]||'Contact reception'}))});if(requestPath==='/api/open'&&req.method==='POST'){data.stats.miniAppOpens++;saveData();return sendJson(res,200,{success:true})}if(requestPath==='/api/inquiry'&&req.method==='POST')try{const b=JSON.parse(await readBody(req));for(const f of['name','phone','apartment','checkIn','stay'])if(!String(b[f]||'').trim())return sendJson(res,400,{success:false,message:'Please complete all required fields.'});const q={id:crypto.randomBytes(4).toString('hex').toUpperCase(),...b,status:'new',createdAt:new Date().toISOString()};data.inquiries.unshift(q);data.inquiries=data.inquiries.slice(0,500);data.stats.inquiries++;saveData();await sendInquiryToStaff(q);return sendJson(res,200,{success:true,inquiryId:q.id})}catch(e){return sendJson(res,500,{success:false,message:'Unable to send inquiry.'})}if(requestPath==='/app'||requestPath==='/app/'){
+ const candidates=[
+  path.join(__dirname,'web','index.html'),
+  path.join(__dirname,'src','web','index.html'),
+  path.join(process.cwd(),'src','web','index.html'),
+  path.join(process.cwd(),'web','index.html')
+ ];
+ const appFile=candidates.find(f=>fs.existsSync(f)&&fs.statSync(f).isFile());
+ if(!appFile){
+  console.error('❌ Mini App index.html not found. Checked:',candidates);
+  res.writeHead(404,{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'no-store'});
+  return res.end('Mini App files are missing. Expected src/web/index.html');
+ }
+ res.writeHead(200,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'});
+ const stream=fs.createReadStream(appFile);
+ stream.on('error',error=>{
+  console.error('❌ Mini App stream error:',error);
+  if(!res.headersSent)res.writeHead(500,{'Content-Type':'text/plain; charset=utf-8'});
+  if(!res.writableEnded)res.end('Unable to load Mini App.');
+ });
+ return stream.pipe(res);
+}
+if(requestPath.startsWith('/web/')){
+ const rel=path.normalize(requestPath.replace(/^\/web\//,'')).replace(/^(\.\.(\/|\\|$))+/,'');
+ const bases=[
+  path.join(__dirname,'web'),
+  path.join(__dirname,'src','web'),
+  path.join(process.cwd(),'src','web'),
+  path.join(process.cwd(),'web')
+ ];
+ const foundBase=bases.find(base=>{
+  const candidate=path.join(base,rel);
+  return candidate.startsWith(base)&&fs.existsSync(candidate)&&fs.statSync(candidate).isFile();
+ });
+ if(!foundBase){
+  res.writeHead(404,{'Content-Type':'text/plain; charset=utf-8'});
+  return res.end('Not found');
+ }
+ const f=path.join(foundBase,rel);
+ res.writeHead(200,{'Content-Type':MIME[path.extname(f).toLowerCase()]||'application/octet-stream','Cache-Control':'public, max-age=300'});
+ const stream=fs.createReadStream(f);
+ stream.on('error',error=>{
+  console.error('❌ Static file stream error:',error);
+  if(!res.headersSent)res.writeHead(500,{'Content-Type':'text/plain; charset=utf-8'});
+  if(!res.writableEnded)res.end('Unable to load file.');
+ });
+ return stream.pipe(res);
+}res.writeHead(404);res.end('Not found')});
+server.on('clientError',(error,socket)=>{
+ console.error('❌ HTTP client error:',error.message);
+ if(socket.writable)socket.end('HTTP/1.1 400 Bad Request\r\n\r\n');
+});
+server.on('error',error=>console.error('❌ Web server error:',error));
+server.listen(PORT,'0.0.0.0',()=>{
+ console.log(`✅ Web server on ${PORT}`);
+ console.log('📁 Runtime directory:',__dirname);
+ console.log('📁 Working directory:',process.cwd());
+});
 async function startBot(){
  try{
   await bot.telegram.deleteWebhook({drop_pending_updates:false});
   const me=await bot.telegram.getMe();
   console.log(`✅ Connected to @${me.username} (${me.id})`);
-  console.log('✅ google-translate-api-x loaded');
-  console.log(`✅ Translation enabled: ${TRANSLATION_ENABLED}`);
   await bot.launch({allowedUpdates:['message','callback_query','chat_member','my_chat_member']});
   console.log('✅ Bot V3 polling is running');
  }catch(error){
