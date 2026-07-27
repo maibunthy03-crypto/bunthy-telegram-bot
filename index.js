@@ -101,12 +101,21 @@ async function showLanguageStep(ctx,step,page=0,edit=false){
  return ctx.reply(title,extra);
 }
 
-bot.command(['language','languages','setlanguage'],async ctx=>{
- if(!isGroup(ctx))return ctx.reply('Please use this command inside a Telegram group.');
- if(!(await isLanguageAdmin(ctx)))return ctx.reply('⛔ Only the group owner or administrators can change languages.');
- languageSelection.set(`${ctx.chat.id}:${ctx.from.id}`,{first:''});
- await showLanguageStep(ctx,1,0,false);
-});
+async function openPremiumLanguageMenu(ctx){
+ try{
+  if(!isGroup(ctx))return ctx.reply('Please use this command inside a Telegram group.');
+  if(!(await isLanguageAdmin(ctx)))return ctx.reply('⛔ Only the group owner or administrators can change languages.');
+  languageSelection.set(`${ctx.chat.id}:${ctx.from.id}`,{first:''});
+  await showLanguageStep(ctx,1,0,false);
+ }catch(error){
+  console.error('Language menu error:',error);
+  await ctx.reply(`❌ Language menu error: ${error.message}`).catch(()=>{});
+ }
+}
+bot.command('language',openPremiumLanguageMenu);
+bot.command('languages',openPremiumLanguageMenu);
+bot.command('setlanguage',openPremiumLanguageMenu);
+bot.command('ping',ctx=>ctx.reply('✅ Bot is online and this index.js is running.'));
 bot.action(/^lngpage:(1|2):(\d+)$/,async ctx=>{
  if(!(await isLanguageAdmin(ctx)))return ctx.answerCbQuery('Admin only',{show_alert:true});
  await ctx.answerCbQuery();
@@ -173,5 +182,18 @@ function sendJson(res,status,body){res.writeHead(status,{'Content-Type':'applica
 function readBody(req){return new Promise((resolve,reject)=>{let b='';req.on('data',c=>{b+=c;if(b.length>1e6)reject(new Error('Too large'))});req.on('end',()=>resolve(b));req.on('error',reject)})}
 const MIME={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'application/javascript; charset=utf-8','.jpg':'image/jpeg','.jpeg':'image/jpeg','.png':'image/png','.webp':'image/webp','.svg':'image/svg+xml'};
 const server=http.createServer(async(req,res)=>{const requestPath=decodeURIComponent((req.url||'/').split('?')[0]);if(requestPath==='/'||requestPath==='/health'){res.writeHead(200,{'Content-Type':'text/plain'});return res.end('Maline Smart Assistant V3 is running')}if(requestPath==='/api/config')return sendJson(res,200,{phone:RECEPTION_PHONE,telegram:RECEPTION_TELEGRAM,website:WEBSITE,maps:GOOGLE_MAPS_URL,serviceIncluded:SERVICE_INCLUDED,serviceExcluded:SERVICE_EXCLUDED,apartments:Object.entries(apartments).map(([key,a])=>({key,...a,images:galleryFor(a.folder),price:data.prices[key]||'Contact us for price',availability:data.availability[key]||'Contact reception'}))});if(requestPath==='/api/open'&&req.method==='POST'){data.stats.miniAppOpens++;saveData();return sendJson(res,200,{success:true})}if(requestPath==='/api/inquiry'&&req.method==='POST')try{const b=JSON.parse(await readBody(req));for(const f of['name','phone','apartment','checkIn','stay'])if(!String(b[f]||'').trim())return sendJson(res,400,{success:false,message:'Please complete all required fields.'});const q={id:crypto.randomBytes(4).toString('hex').toUpperCase(),...b,status:'new',createdAt:new Date().toISOString()};data.inquiries.unshift(q);data.inquiries=data.inquiries.slice(0,500);data.stats.inquiries++;saveData();await sendInquiryToStaff(q);return sendJson(res,200,{success:true,inquiryId:q.id})}catch(e){return sendJson(res,500,{success:false,message:'Unable to send inquiry.'})}if(requestPath==='/app'||requestPath==='/app/')return fs.createReadStream(path.join(__dirname,'web','index.html')).pipe((res.writeHead(200,{'Content-Type':MIME['.html'],'Cache-Control':'no-cache'}),res));if(requestPath.startsWith('/web/')){const rel=path.normalize(requestPath.replace(/^\/web\//,'')).replace(/^(\.\.(\/|\\|$))+/,'');const base=path.join(__dirname,'web'),f=path.join(base,rel);if(!f.startsWith(base)||!fs.existsSync(f)||fs.statSync(f).isDirectory()){res.writeHead(404);return res.end('Not found')}res.writeHead(200,{'Content-Type':MIME[path.extname(f).toLowerCase()]||'application/octet-stream'});return fs.createReadStream(f).pipe(res)}res.writeHead(404);res.end('Not found')});
-server.listen(PORT,'0.0.0.0',()=>console.log(`✅ Web server on ${PORT}`));bot.launch({allowedUpdates:['message','callback_query','chat_member','my_chat_member']}).then(()=>console.log('✅ Bot V3 running')).catch(console.error);
+server.listen(PORT,'0.0.0.0',()=>console.log(`✅ Web server on ${PORT}`));
+async function startBot(){
+ try{
+  await bot.telegram.deleteWebhook({drop_pending_updates:false});
+  const me=await bot.telegram.getMe();
+  console.log(`✅ Connected to @${me.username} (${me.id})`);
+  await bot.launch({allowedUpdates:['message','callback_query','chat_member','my_chat_member']});
+  console.log('✅ Bot V3 polling is running');
+ }catch(error){
+  console.error('❌ BOT START FAILED:',error?.response?.description||error.message||error);
+  process.exitCode=1;
+ }
+}
+startBot();
 process.once('SIGINT',()=>{bot.stop('SIGINT');server.close()});process.once('SIGTERM',()=>{bot.stop('SIGTERM');server.close()});
