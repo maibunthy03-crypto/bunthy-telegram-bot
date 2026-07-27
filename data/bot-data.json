@@ -1,6 +1,7 @@
 {
   "users": {},
   "admins": [],
+  "staffGroupId": "",
   "translationPairs": {},
   "welcomeEnabled": {},
   "autoReplyEnabled": {},

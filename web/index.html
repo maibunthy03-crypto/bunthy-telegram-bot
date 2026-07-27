@@ -1,34 +1,10 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#d92f85">
-<title>Maline Apartments</title>
-<link rel="stylesheet" href="/web/style.css">
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-</head>
-<body>
-<div class="splash" id="splash"><div class="ring"></div><img src="/web/images/logo.png" alt="Maline logo"><p>Exclusive Serviced Apartments</p></div>
-<header class="hero">
-  <div class="topbar"><img src="/web/images/logo.png" class="logo" alt="Maline"><button id="lang">EN</button></div>
-  <div class="hero-copy"><p class="kicker">EXCLUSIVE SERVICED APARTMENTS</p><h1>Luxury Living<br>in Phnom Penh</h1><p>Spacious homes, premium facilities and attentive service in the heart of the city.</p>
-  <div class="actions"><a href="#apartments">Explore Apartments</a><a href="#booking" class="outline">Book a Viewing</a></div></div>
-</header>
-<main>
-<section class="stats"><article><b>50–551</b><span>sqm residences</span></article><article><b>24/7</b><span>Security & reception</span></article><article><b>3</b><span>App languages</span></article></section>
-<section id="apartments" class="section"><p class="kicker">OUR RESIDENCES</p><h2>Choose your apartment</h2><div class="filters"><button class="active" data-filter="all">All</button><button data-filter="studio">Studio</button><button data-filter="one">1 Bedroom</button><button data-filter="two">2 Bedroom</button><button data-filter="three">3 Bedroom</button><button data-filter="penthouse">Penthouse</button></div><div id="rooms" class="rooms"></div></section>
-<section class="section split"><div><p class="kicker">PROPERTY DETAIL</p><h2>Service Included</h2><ul id="included"></ul></div><div><p class="kicker">PLEASE NOTE</p><h2>Service Excluded</h2><ul id="excluded"></ul></div></section>
-<section class="section"><p class="kicker">LIFESTYLE</p><h2>Premium Facilities</h2><div class="facilities"><article>🏊<b>Swimming Pool</b></article><article>💪<b>Professional Gym</b></article><article>♨️<b>Steam & Sauna</b></article><article>🧸<b>Kids Playground</b></article><article>🚗<b>Parking</b></article><article>🛎️<b>Reception</b></article></div></section>
-<section id="booking" class="section booking"><p class="kicker">SCHEDULE A VIEWING</p><h2>Send your inquiry</h2><form id="form">
-<label>Full name *<input name="name" required></label><label>Phone number *<input name="phone" required></label>
-<label>Telegram<input name="telegram" placeholder="@username"></label><label>Email<input name="email" type="email"></label>
-<label class="full">Apartment *<select name="apartment" id="roomSelect" required><option value="">Choose apartment</option></select></label>
-<label>Check-in date *<input name="checkIn" type="date" required></label><label>Check-out date<input name="checkOut" type="date"></label>
-<label>Length of stay *<select name="stay" required><option value="">Choose</option><option>1–3 months</option><option>3–6 months</option><option>6–12 months</option><option>12+ months</option></select></label>
-<label>Monthly budget<input name="budget" placeholder="USD"></label><label class="full">Special request<textarea name="message"></textarea></label>
-<button class="submit full">Send Inquiry</button><p id="status" class="full"></p></form></section>
-</main>
-<div class="modal" id="modal" hidden><div class="backdrop" data-close></div><div class="modal-card"><button class="close" data-close>×</button><img id="galleryImg" alt=""><h3 id="modalTitle"></h3><p id="modalMeta"></p><div class="gallery-nav"><button id="prev">‹</button><span id="counter"></span><button id="next">›</button></div><button id="choose" class="submit">Choose This Apartment</button></div></div>
-<script src="/web/app.js"></script>
-</body></html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#e93b92"><title>Maline Smart Assistant V3</title><link rel="stylesheet" href="/web/style.css"><script src="https://telegram.org/js/telegram-web-app.js"></script></head><body>
+<div id="opening" class="opening"><div class="pink-orb orb1"></div><div class="pink-orb orb2"></div><img src="/web/images/logo.png" alt="Maline logo" class="opening-logo"><div class="opening-building"><img src="/web/images/building.jpg" alt="Maline Apartments"></div><h1>Maline Apartments</h1><p>Exclusive Serviced Apartments</p><div class="loader"><span></span></div></div>
+<header class="hero"><nav><img src="/web/images/logo.png" alt="Maline" class="logo"><select id="language"><option value="en">EN</option><option value="km">ខ្មែរ</option><option value="zh">中文</option></select></nav><div class="hero-content"><span class="eyebrow" data-t="eyebrow">WELCOME TO MALINE</span><h1 data-t="heroTitle">Luxury Living in Phnom Penh</h1><p data-t="heroText">Explore spacious apartments, premium facilities and book your viewing.</p><div class="hero-buttons"><a href="#apartments" data-t="explore">Explore Apartments</a><a href="#booking" class="ghost" data-t="book">Book a Viewing</a></div></div></header>
+<main><section class="quick"><button data-scroll="apartments">🏨<b data-t="apartments">Apartments</b></button><button data-scroll="facilities">🏊<b data-t="facilities">Facilities</b></button><button data-scroll="booking">📅<b data-t="booking">Booking</b></button><button id="contactBtn">📞<b data-t="contact">Contact</b></button></section>
+<section id="apartments" class="section"><span class="eyebrow" data-t="residences">OUR RESIDENCES</span><h2 data-t="choose">Choose Your Apartment</h2><div class="filters"><button class="active" data-filter="all">All</button><button data-filter="studio">Studio</button><button data-filter="one">1 Bedroom</button><button data-filter="two">2 Bedroom</button><button data-filter="three">3 Bedroom</button><button data-filter="penthouse">Penthouse</button></div><div id="rooms" class="rooms"></div></section>
+<section id="facilities" class="section light"><span class="eyebrow" data-t="lifestyle">LIFESTYLE</span><h2 data-t="premium">Premium Facilities</h2><div class="facility-grid"><article>🏊<b>Swimming Pool</b></article><article>💪<b>Professional Gym</b></article><article>♨️<b>Steam & Sauna</b></article><article>🧸<b>Kids Playground</b></article><article>🚗<b>Parking</b></article><article>🛎️<b>24/7 Reception</b></article></div></section>
+<section class="section service"><div><h2 data-t="included">Service Included</h2><ul id="included"></ul></div><div><h2 data-t="excluded">Service Excluded</h2><ul id="excluded"></ul></div></section>
+<section id="booking" class="section booking"><span class="eyebrow" data-t="schedule">SCHEDULE A VIEWING</span><h2 data-t="sendInquiry">Send Your Inquiry</h2><form id="form"><label>Full name *<input name="name" required></label><label>Phone number *<input name="phone" required></label><label>Telegram<input name="telegram" placeholder="@username"></label><label>Email<input name="email" type="email"></label><label class="full">Apartment *<select name="apartment" id="roomSelect" required><option value="">Choose apartment</option></select></label><label>Check-in *<input name="checkIn" type="date" required></label><label>Check-out<input name="checkOut" type="date"></label><label>Stay length *<select name="stay" required><option value="">Choose</option><option>1–3 months</option><option>3–6 months</option><option>6–12 months</option><option>12+ months</option></select></label><label>Monthly budget<input name="budget" placeholder="USD"></label><label class="full">Message<textarea name="message"></textarea></label><button class="submit full" type="submit" data-t="submit">Send Inquiry</button><p id="status" class="full"></p></form></section></main>
+<div id="modal" class="modal" hidden><div class="shade" data-close></div><div class="modal-card"><button class="close" data-close>×</button><img id="galleryImage" alt=""><h3 id="modalTitle"></h3><p id="modalInfo"></p><div class="gallery-controls"><button id="prev">‹</button><span id="counter"></span><button id="next">›</button></div><button id="chooseRoom" class="submit">Choose This Apartment</button></div></div>
+<script src="/web/app.js"></script></body></html>
