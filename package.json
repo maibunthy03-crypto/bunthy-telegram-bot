@@ -13,4 +13,11 @@
     "dotenv": "^16.4.5",
     "telegraf": "^4.16.3"
   }
+}npm install google-translate-api-x
+{
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "telegraf": "^4.16.3",
+    "google-translate-api-x": "^10"
+  }
 }
