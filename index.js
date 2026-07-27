@@ -56,7 +56,102 @@ bot.command('addadmin',ctx=>{if(Number(ctx.from.id)!==OWNER_ID)return ctx.reply(
 bot.command('removeadmin',ctx=>{if(Number(ctx.from.id)!==OWNER_ID)return;const id=Number(ctx.message.text.split(/\s+/)[1]);data.admins=data.admins.filter(x=>Number(x)!==id);saveData();ctx.reply('✅ Admin removed')});
 bot.command('setstaffgroup',ctx=>{if(!isAdmin(ctx)||!isGroup(ctx))return ctx.reply('Run this command inside the staff group.');data.staffGroupId=String(ctx.chat.id);saveData();ctx.reply('✅ Staff group saved')});
 for(const [cmd,field,val] of [['welcome_on','welcomeEnabled',true],['welcome_off','welcomeEnabled',false],['autoreply_on','autoReplyEnabled',true],['autoreply_off','autoReplyEnabled',false]])bot.command(cmd,ctx=>{if(!isAdmin(ctx)||!isGroup(ctx))return ctx.reply('Admin group command only.');data[field][String(ctx.chat.id)]=val;saveData();ctx.reply(`✅ ${cmd.replace('_',' ')}`)});
-bot.command('language',ctx=>{if(!isAdmin(ctx)||!isGroup(ctx))return ctx.reply('Admin group command only.');const p=ctx.message.text.trim().split(/\s+/);if(p.length!==3)return ctx.reply('Use: /language en zh-CN');data.translationPairs[String(ctx.chat.id)]={a:p[1],b:p[2]};saveData();ctx.reply(`✅ Translation: ${p[1]} ↔ ${p[2]}`)});
+
+const PREMIUM_LANGUAGES=[{"code": "af", "flag": "🇿🇦", "name": "Afrikaans"}, {"code": "sq", "flag": "🇦🇱", "name": "Albanian"}, {"code": "am", "flag": "🇪🇹", "name": "Amharic"}, {"code": "ar", "flag": "🇸🇦", "name": "Arabic"}, {"code": "hy", "flag": "🇦🇲", "name": "Armenian"}, {"code": "as", "flag": "🇮🇳", "name": "Assamese"}, {"code": "ay", "flag": "🇧🇴", "name": "Aymara"}, {"code": "az", "flag": "🇦🇿", "name": "Azerbaijani"}, {"code": "bm", "flag": "🇲🇱", "name": "Bambara"}, {"code": "eu", "flag": "🇪🇸", "name": "Basque"}, {"code": "be", "flag": "🇧🇾", "name": "Belarusian"}, {"code": "bn", "flag": "🇧🇩", "name": "Bengali"}, {"code": "bho", "flag": "🇮🇳", "name": "Bhojpuri"}, {"code": "bs", "flag": "🇧🇦", "name": "Bosnian"}, {"code": "bg", "flag": "🇧🇬", "name": "Bulgarian"}, {"code": "ca", "flag": "🇪🇸", "name": "Catalan"}, {"code": "ceb", "flag": "🇵🇭", "name": "Cebuano"}, {"code": "ny", "flag": "🇲🇼", "name": "Chichewa"}, {"code": "zh-CN", "flag": "🇨🇳", "name": "Chinese Simplified"}, {"code": "zh-TW", "flag": "🇹🇼", "name": "Chinese Traditional"}, {"code": "co", "flag": "🇫🇷", "name": "Corsican"}, {"code": "hr", "flag": "🇭🇷", "name": "Croatian"}, {"code": "cs", "flag": "🇨🇿", "name": "Czech"}, {"code": "da", "flag": "🇩🇰", "name": "Danish"}, {"code": "dv", "flag": "🇲🇻", "name": "Dhivehi"}, {"code": "doi", "flag": "🇮🇳", "name": "Dogri"}, {"code": "nl", "flag": "🇳🇱", "name": "Dutch"}, {"code": "en", "flag": "🇬🇧", "name": "English"}, {"code": "eo", "flag": "🌍", "name": "Esperanto"}, {"code": "et", "flag": "🇪🇪", "name": "Estonian"}, {"code": "ee", "flag": "🇬🇭", "name": "Ewe"}, {"code": "fil", "flag": "🇵🇭", "name": "Filipino"}, {"code": "fi", "flag": "🇫🇮", "name": "Finnish"}, {"code": "fr", "flag": "🇫🇷", "name": "French"}, {"code": "fy", "flag": "🇳🇱", "name": "Frisian"}, {"code": "gl", "flag": "🇪🇸", "name": "Galician"}, {"code": "ka", "flag": "🇬🇪", "name": "Georgian"}, {"code": "de", "flag": "🇩🇪", "name": "German"}, {"code": "el", "flag": "🇬🇷", "name": "Greek"}, {"code": "gn", "flag": "🇵🇾", "name": "Guarani"}, {"code": "gu", "flag": "🇮🇳", "name": "Gujarati"}, {"code": "ht", "flag": "🇭🇹", "name": "Haitian Creole"}, {"code": "ha", "flag": "🇳🇬", "name": "Hausa"}, {"code": "haw", "flag": "🇺🇸", "name": "Hawaiian"}, {"code": "he", "flag": "🇮🇱", "name": "Hebrew"}, {"code": "hi", "flag": "🇮🇳", "name": "Hindi"}, {"code": "hmn", "flag": "🌏", "name": "Hmong"}, {"code": "hu", "flag": "🇭🇺", "name": "Hungarian"}, {"code": "is", "flag": "🇮🇸", "name": "Icelandic"}, {"code": "ig", "flag": "🇳🇬", "name": "Igbo"}, {"code": "ilo", "flag": "🇵🇭", "name": "Ilocano"}, {"code": "id", "flag": "🇮🇩", "name": "Indonesian"}, {"code": "ga", "flag": "🇮🇪", "name": "Irish"}, {"code": "it", "flag": "🇮🇹", "name": "Italian"}, {"code": "ja", "flag": "🇯🇵", "name": "Japanese"}, {"code": "jv", "flag": "🇮🇩", "name": "Javanese"}, {"code": "kn", "flag": "🇮🇳", "name": "Kannada"}, {"code": "kk", "flag": "🇰🇿", "name": "Kazakh"}, {"code": "km", "flag": "🇰🇭", "name": "Khmer"}, {"code": "rw", "flag": "🇷🇼", "name": "Kinyarwanda"}, {"code": "gom", "flag": "🇮🇳", "name": "Konkani"}, {"code": "ko", "flag": "🇰🇷", "name": "Korean"}, {"code": "kri", "flag": "🇸🇱", "name": "Krio"}, {"code": "ku", "flag": "🌍", "name": "Kurdish"}, {"code": "ckb", "flag": "🌍", "name": "Kurdish Sorani"}, {"code": "ky", "flag": "🇰🇬", "name": "Kyrgyz"}, {"code": "lo", "flag": "🇱🇦", "name": "Lao"}, {"code": "la", "flag": "🏛️", "name": "Latin"}, {"code": "lv", "flag": "🇱🇻", "name": "Latvian"}, {"code": "ln", "flag": "🇨🇩", "name": "Lingala"}, {"code": "lt", "flag": "🇱🇹", "name": "Lithuanian"}, {"code": "lg", "flag": "🇺🇬", "name": "Luganda"}, {"code": "lb", "flag": "🇱🇺", "name": "Luxembourgish"}, {"code": "mk", "flag": "🇲🇰", "name": "Macedonian"}, {"code": "mai", "flag": "🇮🇳", "name": "Maithili"}, {"code": "mg", "flag": "🇲🇬", "name": "Malagasy"}, {"code": "ms", "flag": "🇲🇾", "name": "Malay"}, {"code": "ml", "flag": "🇮🇳", "name": "Malayalam"}, {"code": "mt", "flag": "🇲🇹", "name": "Maltese"}, {"code": "mi", "flag": "🇳🇿", "name": "Maori"}, {"code": "mr", "flag": "🇮🇳", "name": "Marathi"}, {"code": "mni", "flag": "🇮🇳", "name": "Meiteilon"}, {"code": "lus", "flag": "🇮🇳", "name": "Mizo"}, {"code": "mn", "flag": "🇲🇳", "name": "Mongolian"}, {"code": "my", "flag": "🇲🇲", "name": "Myanmar"}, {"code": "ne", "flag": "🇳🇵", "name": "Nepali"}, {"code": "no", "flag": "🇳🇴", "name": "Norwegian"}, {"code": "or", "flag": "🇮🇳", "name": "Odia"}, {"code": "om", "flag": "🇪🇹", "name": "Oromo"}, {"code": "ps", "flag": "🇦🇫", "name": "Pashto"}, {"code": "fa", "flag": "🇮🇷", "name": "Persian"}, {"code": "pl", "flag": "🇵🇱", "name": "Polish"}, {"code": "pt", "flag": "🇵🇹", "name": "Portuguese"}, {"code": "pa", "flag": "🇮🇳", "name": "Punjabi"}, {"code": "qu", "flag": "🇵🇪", "name": "Quechua"}, {"code": "ro", "flag": "🇷🇴", "name": "Romanian"}, {"code": "ru", "flag": "🇷🇺", "name": "Russian"}, {"code": "sm", "flag": "🇼🇸", "name": "Samoan"}, {"code": "sa", "flag": "🇮🇳", "name": "Sanskrit"}, {"code": "gd", "flag": "🏴", "name": "Scots Gaelic"}, {"code": "nso", "flag": "🇿🇦", "name": "Sepedi"}, {"code": "sr", "flag": "🇷🇸", "name": "Serbian"}, {"code": "st", "flag": "🇱🇸", "name": "Sesotho"}, {"code": "sn", "flag": "🇿🇼", "name": "Shona"}, {"code": "sd", "flag": "🇵🇰", "name": "Sindhi"}, {"code": "si", "flag": "🇱🇰", "name": "Sinhala"}, {"code": "sk", "flag": "🇸🇰", "name": "Slovak"}, {"code": "sl", "flag": "🇸🇮", "name": "Slovenian"}, {"code": "so", "flag": "🇸🇴", "name": "Somali"}, {"code": "es", "flag": "🇪🇸", "name": "Spanish"}, {"code": "su", "flag": "🇮🇩", "name": "Sundanese"}, {"code": "sw", "flag": "🇰🇪", "name": "Swahili"}, {"code": "sv", "flag": "🇸🇪", "name": "Swedish"}, {"code": "tg", "flag": "🇹🇯", "name": "Tajik"}, {"code": "ta", "flag": "🇮🇳", "name": "Tamil"}, {"code": "tt", "flag": "🌍", "name": "Tatar"}, {"code": "te", "flag": "🇮🇳", "name": "Telugu"}, {"code": "th", "flag": "🇹🇭", "name": "Thai"}, {"code": "ti", "flag": "🇪🇷", "name": "Tigrinya"}, {"code": "ts", "flag": "🇿🇦", "name": "Tsonga"}, {"code": "tr", "flag": "🇹🇷", "name": "Turkish"}, {"code": "tk", "flag": "🇹🇲", "name": "Turkmen"}, {"code": "ak", "flag": "🇬🇭", "name": "Twi"}, {"code": "uk", "flag": "🇺🇦", "name": "Ukrainian"}, {"code": "ur", "flag": "🇵🇰", "name": "Urdu"}, {"code": "ug", "flag": "🌏", "name": "Uyghur"}, {"code": "uz", "flag": "🇺🇿", "name": "Uzbek"}, {"code": "vi", "flag": "🇻🇳", "name": "Vietnamese"}, {"code": "cy", "flag": "🏴", "name": "Welsh"}, {"code": "xh", "flag": "🇿🇦", "name": "Xhosa"}, {"code": "yi", "flag": "🌍", "name": "Yiddish"}, {"code": "yo", "flag": "🇳🇬", "name": "Yoruba"}, {"code": "zu", "flag": "🇿🇦", "name": "Zulu"}, {"code": "ace", "flag": "🇮🇩", "name": "Acehnese"}, {"code": "ach", "flag": "🇺🇬", "name": "Acholi"}, {"code": "awa", "flag": "🇮🇳", "name": "Awadhi"}, {"code": "bal", "flag": "🇵🇰", "name": "Balochi"}, {"code": "ban", "flag": "🇮🇩", "name": "Balinese"}, {"code": "ba", "flag": "🇷🇺", "name": "Bashkir"}, {"code": "ber", "flag": "🌍", "name": "Berber"}, {"code": "br", "flag": "🇫🇷", "name": "Breton"}, {"code": "bua", "flag": "🇷🇺", "name": "Buryat"}, {"code": "ch", "flag": "🇬🇺", "name": "Chamorro"}, {"code": "chr", "flag": "🇺🇸", "name": "Cherokee"}, {"code": "cv", "flag": "🇷🇺", "name": "Chuvash"}, {"code": "din", "flag": "🇸🇸", "name": "Dinka"}, {"code": "dz", "flag": "🇧🇹", "name": "Dzongkha"}, {"code": "fo", "flag": "🇫🇴", "name": "Faroese"}, {"code": "fj", "flag": "🇫🇯", "name": "Fijian"}, {"code": "fur", "flag": "🇮🇹", "name": "Friulian"}, {"code": "gaa", "flag": "🇬🇭", "name": "Ga"}, {"code": "kl", "flag": "🇬🇱", "name": "Greenlandic"}, {"code": "hil", "flag": "🇵🇭", "name": "Hiligaynon"}, {"code": "iba", "flag": "🇲🇾", "name": "Iban"}, {"code": "io", "flag": "🌍", "name": "Ido"}, {"code": "iu", "flag": "🇨🇦", "name": "Inuktitut"}, {"code": "kab", "flag": "🇩🇿", "name": "Kabyle"}, {"code": "kea", "flag": "🇨🇻", "name": "Kabuverdianu"}, {"code": "kg", "flag": "🇨🇩", "name": "Kongo"}];
+const LANGUAGE_PAGE_SIZE=10;
+const languageSelection=new Map();
+
+function languageLabel(code){
+ const l=PREMIUM_LANGUAGES.find(x=>x.code===code);
+ return l?`${l.flag} ${l.name}`:`🌐 ${code}`;
+}
+async function isLanguageAdmin(ctx){
+ if(isAdmin(ctx))return true;
+ if(!isGroup(ctx))return false;
+ try{
+  const m=await ctx.telegram.getChatMember(ctx.chat.id,ctx.from.id);
+  return ['creator','administrator'].includes(m.status);
+ }catch{return false}
+}
+function languageMenuKeyboard(step,page=0,first=''){
+ const total=Math.ceil(PREMIUM_LANGUAGES.length/LANGUAGE_PAGE_SIZE);
+ page=Math.max(0,Math.min(Number(page)||0,total-1));
+ const start=page*LANGUAGE_PAGE_SIZE;
+ const list=PREMIUM_LANGUAGES.slice(start,start+LANGUAGE_PAGE_SIZE);
+ const rows=[];
+ for(let i=0;i<list.length;i+=2){
+  rows.push(list.slice(i,i+2).map(l=>Markup.button.callback(`${l.flag} ${l.name}`, `lng:${step}:${page}:${l.code}`)));
+ }
+ const nav=[];
+ if(page>0)nav.push(Markup.button.callback('⬅️ Previous',`lngpage:${step}:${page-1}`));
+ nav.push(Markup.button.callback(`${page+1}/${total}`,'lngnoop'));
+ if(page<total-1)nav.push(Markup.button.callback('Next ➡️',`lngpage:${step}:${page+1}`));
+ rows.push(nav);
+ rows.push([Markup.button.callback('❌ Cancel','lngcancel')]);
+ return Markup.inlineKeyboard(rows);
+}
+async function showLanguageStep(ctx,step,page=0,edit=false){
+ const key=`${ctx.chat.id}:${ctx.from.id}`;
+ const state=languageSelection.get(key)||{first:''};
+ const title=step===1
+  ?`🌐 <b>Select Language 1</b>\n\nChoose the first language from all 159 languages.`
+  :`✅ Language 1: <b>${languageLabel(state.first)}</b>\n\n🌐 <b>Select Language 2</b>\n\nChoose the second language from all 159 languages.`;
+ const extra={parse_mode:'HTML',...languageMenuKeyboard(step,page,state.first)};
+ if(edit&&ctx.callbackQuery?.message)return ctx.editMessageText(title,extra);
+ return ctx.reply(title,extra);
+}
+
+bot.command(['language','languages','setlanguage'],async ctx=>{
+ if(!isGroup(ctx))return ctx.reply('Please use this command inside a Telegram group.');
+ if(!(await isLanguageAdmin(ctx)))return ctx.reply('⛔ Only the group owner or administrators can change languages.');
+ languageSelection.set(`${ctx.chat.id}:${ctx.from.id}`,{first:''});
+ await showLanguageStep(ctx,1,0,false);
+});
+bot.action(/^lngpage:(1|2):(\d+)$/,async ctx=>{
+ if(!(await isLanguageAdmin(ctx)))return ctx.answerCbQuery('Admin only',{show_alert:true});
+ await ctx.answerCbQuery();
+ await showLanguageStep(ctx,Number(ctx.match[1]),Number(ctx.match[2]),true);
+});
+bot.action(/^lng:(1|2):(\d+):(.+)$/,async ctx=>{
+ if(!(await isLanguageAdmin(ctx)))return ctx.answerCbQuery('Admin only',{show_alert:true});
+ const step=Number(ctx.match[1]),code=ctx.match[3];
+ const lang=PREMIUM_LANGUAGES.find(x=>x.code===code);
+ if(!lang)return ctx.answerCbQuery('Language not found',{show_alert:true});
+ const key=`${ctx.chat.id}:${ctx.from.id}`;
+ const state=languageSelection.get(key)||{first:''};
+ if(step===1){
+   state.first=code;languageSelection.set(key,state);
+   await ctx.answerCbQuery(`${lang.flag} ${lang.name} selected`);
+   return showLanguageStep(ctx,2,0,true);
+ }
+ if(!state.first)return ctx.answerCbQuery('Please select Language 1 first',{show_alert:true});
+ if(state.first===code)return ctx.answerCbQuery('Please choose a different second language',{show_alert:true});
+ data.translationPairs[String(ctx.chat.id)]={a:state.first,b:code};
+ saveData();languageSelection.delete(key);
+ await ctx.answerCbQuery('Translation languages saved');
+ return ctx.editMessageText(
+  `✅ <b>Auto Translation Updated</b>\n\n${languageLabel(state.first)} ⇄ ${languageLabel(code)}\n\n🟢 Translation enabled\n👑 Updated by group admin`,
+  {parse_mode:'HTML',...Markup.inlineKeyboard([
+   [Markup.button.callback('🔄 Change Languages','lngrestart')],
+   [Markup.button.callback('🔴 Turn Translation Off','lngoff')]
+  ])}
+ );
+});
+bot.action('lngrestart',async ctx=>{
+ if(!(await isLanguageAdmin(ctx)))return ctx.answerCbQuery('Admin only',{show_alert:true});
+ languageSelection.set(`${ctx.chat.id}:${ctx.from.id}`,{first:''});
+ await ctx.answerCbQuery();
+ await showLanguageStep(ctx,1,0,true);
+});
+bot.action('lngoff',async ctx=>{
+ if(!(await isLanguageAdmin(ctx)))return ctx.answerCbQuery('Admin only',{show_alert:true});
+ delete data.translationPairs[String(ctx.chat.id)];saveData();
+ await ctx.answerCbQuery('Translation disabled');
+ await ctx.editMessageText('🔴 <b>Auto translation is disabled.</b>\n\nUse /languages to choose a new language pair.',{parse_mode:'HTML'});
+});
+bot.action('lngnoop',ctx=>ctx.answerCbQuery());
+bot.action('lngcancel',async ctx=>{await ctx.answerCbQuery('Cancelled');await ctx.deleteMessage().catch(()=>{})});
+
 bot.command('translation_off',ctx=>{if(!isAdmin(ctx)||!isGroup(ctx))return;delete data.translationPairs[String(ctx.chat.id)];saveData();ctx.reply('✅ Translation disabled')});
 bot.command('setprice',ctx=>{if(!isAdmin(ctx))return;const[,key,...v]=ctx.message.text.trim().split(/\s+/);if(!apartments[key]||!v.length)return ctx.reply('Use: /setprice studio50 $1,200/month');data.prices[key]=v.join(' ');saveData();ctx.reply('✅ Price updated')});
 bot.command('setavailability',ctx=>{if(!isAdmin(ctx))return;const[,key,...v]=ctx.message.text.trim().split(/\s+/);if(!apartments[key]||!v.length)return ctx.reply('Use: /setavailability studio50 Available');data.availability[key]=v.join(' ');saveData();ctx.reply('✅ Availability updated')});
