@@ -1,19 +1,45 @@
 {
-  "users": {},
+  "version": "3.0.0",
   "admins": [],
   "staffGroupId": "",
+  "users": {},
+  "groups": {},
   "translationPairs": {},
+  "translationEnabled": {},
   "welcomeEnabled": {},
   "autoReplyEnabled": {},
-  "prices": {},
-  "availability": {},
+  "prices": {
+    "studio50": "Contact us for price",
+    "one84": "Contact us for price",
+    "one91": "Contact us for price",
+    "two130": "Contact us for price",
+    "two138": "Contact us for price",
+    "two148": "Contact us for price",
+    "two150": "Contact us for price",
+    "pha": "Contact us for price",
+    "phb": "Contact us for price",
+    "phc": "Contact us for price"
+  },
+  "availability": {
+    "studio50": "Please contact reception",
+    "one84": "Please contact reception",
+    "one91": "Please contact reception",
+    "two130": "Please contact reception",
+    "two138": "Please contact reception",
+    "two148": "Please contact reception",
+    "two150": "Please contact reception",
+    "pha": "Please contact reception",
+    "phb": "Please contact reception",
+    "phc": "Please contact reception"
+  },
   "inquiries": [],
   "stats": {
-    "starts": 0,
-    "inquiries": 0,
+    "botStarts": 0,
+    "miniAppOpens": 0,
+    "apartmentViews": 0,
+    "inquiriesReceived": 0,
     "translations": 0,
-    "welcomes": 0,
-    "autoReplies": 0,
-    "miniAppOpens": 0
+    "messagesReceived": 0,
+    "lastUpdated": ""
   }
 }
