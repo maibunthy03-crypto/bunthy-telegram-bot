@@ -1,10 +1,1027 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#e93b92"><title>Maline Smart Assistant V3</title><link rel="stylesheet" href="/web/style.css"><script src="https://telegram.org/js/telegram-web-app.js"></script></head><body>
-<div id="opening" class="opening"><div class="pink-orb orb1"></div><div class="pink-orb orb2"></div><img src="/web/images/logo.png" alt="Maline logo" class="opening-logo"><div class="opening-building"><img src="/web/images/building.jpg" alt="Maline Apartments"></div><h1>Maline Apartments</h1><p>Exclusive Serviced Apartments</p><div class="loader"><span></span></div></div>
-<header class="hero"><nav><img src="/web/images/logo.png" alt="Maline" class="logo"><select id="language"><option value="en">EN</option><option value="km">ខ្មែរ</option><option value="zh">中文</option></select></nav><div class="hero-content"><span class="eyebrow" data-t="eyebrow">WELCOME TO MALINE</span><h1 data-t="heroTitle">Luxury Living in Phnom Penh</h1><p data-t="heroText">Explore spacious apartments, premium facilities and book your viewing.</p><div class="hero-buttons"><a href="#apartments" data-t="explore">Explore Apartments</a><a href="#booking" class="ghost" data-t="book">Book a Viewing</a></div></div></header>
-<main><section class="quick"><button data-scroll="apartments">🏨<b data-t="apartments">Apartments</b></button><button data-scroll="facilities">🏊<b data-t="facilities">Facilities</b></button><button data-scroll="booking">📅<b data-t="booking">Booking</b></button><button id="contactBtn">📞<b data-t="contact">Contact</b></button></section>
-<section id="apartments" class="section"><span class="eyebrow" data-t="residences">OUR RESIDENCES</span><h2 data-t="choose">Choose Your Apartment</h2><div class="filters"><button class="active" data-filter="all">All</button><button data-filter="studio">Studio</button><button data-filter="one">1 Bedroom</button><button data-filter="two">2 Bedroom</button><button data-filter="three">3 Bedroom</button><button data-filter="penthouse">Penthouse</button></div><div id="rooms" class="rooms"></div></section>
-<section id="facilities" class="section light"><span class="eyebrow" data-t="lifestyle">LIFESTYLE</span><h2 data-t="premium">Premium Facilities</h2><div class="facility-grid"><article>🏊<b>Swimming Pool</b></article><article>💪<b>Professional Gym</b></article><article>♨️<b>Steam & Sauna</b></article><article>🧸<b>Kids Playground</b></article><article>🚗<b>Parking</b></article><article>🛎️<b>24/7 Reception</b></article></div></section>
-<section class="section service"><div><h2 data-t="included">Service Included</h2><ul id="included"></ul></div><div><h2 data-t="excluded">Service Excluded</h2><ul id="excluded"></ul></div></section>
-<section id="booking" class="section booking"><span class="eyebrow" data-t="schedule">SCHEDULE A VIEWING</span><h2 data-t="sendInquiry">Send Your Inquiry</h2><form id="form"><label>Full name *<input name="name" required></label><label>Phone number *<input name="phone" required></label><label>Telegram<input name="telegram" placeholder="@username"></label><label>Email<input name="email" type="email"></label><label class="full">Apartment *<select name="apartment" id="roomSelect" required><option value="">Choose apartment</option></select></label><label>Check-in *<input name="checkIn" type="date" required></label><label>Check-out<input name="checkOut" type="date"></label><label>Stay length *<select name="stay" required><option value="">Choose</option><option>1–3 months</option><option>3–6 months</option><option>6–12 months</option><option>12+ months</option></select></label><label>Monthly budget<input name="budget" placeholder="USD"></label><label class="full">Message<textarea name="message"></textarea></label><button class="submit full" type="submit" data-t="submit">Send Inquiry</button><p id="status" class="full"></p></form></section></main>
-<div id="modal" class="modal" hidden><div class="shade" data-close></div><div class="modal-card"><button class="close" data-close>×</button><img id="galleryImage" alt=""><h3 id="modalTitle"></h3><p id="modalInfo"></p><div class="gallery-controls"><button id="prev">‹</button><span id="counter"></span><button id="next">›</button></div><button id="chooseRoom" class="submit">Choose This Apartment</button></div></div>
-<script src="/web/app.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0,
+        user-scalable=no, viewport-fit=cover"
+    >
+
+    <meta name="theme-color" content="#e83e8c">
+
+    <title>Maline Smart Assistant V3</title>
+
+    <link rel="stylesheet" href="/web/style.css">
+
+    <!-- Telegram Mini App SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+
+<body>
+
+    <!-- =======================================================
+         OPENING LOGO ANIMATION
+    ======================================================== -->
+
+    <div id="splashScreen" class="splash-screen">
+
+        <div class="splash-background-circle circle-one"></div>
+        <div class="splash-background-circle circle-two"></div>
+
+        <div class="splash-content">
+
+            <img
+                id="splashLogo"
+                class="splash-logo"
+                src="/web/images/logo.png"
+                alt="Maline Apartments Logo"
+            >
+
+            <h1 class="splash-title">
+                Maline Apartments
+            </h1>
+
+            <p class="splash-subtitle">
+                Exclusive Serviced Apartments
+            </p>
+
+            <div class="splash-loading">
+                <div class="splash-loading-bar"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =======================================================
+         APPLICATION
+    ======================================================== -->
+
+    <div id="miniApp" class="mini-app">
+
+        <!-- ===================================================
+             TOP HEADER
+        ==================================================== -->
+
+        <header class="top-header">
+
+            <a href="#home" class="header-logo-link">
+
+                <img
+                    class="header-logo"
+                    src="/web/images/logo.png"
+                    alt="Maline Apartments"
+                >
+
+            </a>
+
+            <div class="header-actions">
+
+                <label for="languageSelect" class="visually-hidden">
+                    Select language
+                </label>
+
+                <select
+                    id="languageSelect"
+                    class="language-select"
+                    aria-label="Select language"
+                >
+                    <option value="en">EN</option>
+                    <option value="km">ខ្មែរ</option>
+                    <option value="zh">中文</option>
+                </select>
+
+            </div>
+
+        </header>
+
+
+        <!-- ===================================================
+             HERO SECTION
+        ==================================================== -->
+
+        <section id="home" class="hero-section">
+
+            <div class="hero-overlay"></div>
+
+            <div class="hero-content">
+
+                <p class="section-label" data-translate="welcomeLabel">
+                    WELCOME TO MALINE
+                </p>
+
+                <h1 data-translate="heroTitle">
+                    Luxury Living in Phnom Penh
+                </h1>
+
+                <p class="hero-description" data-translate="heroDescription">
+                    Discover spacious serviced apartments, premium facilities
+                    and comfortable long-term living.
+                </p>
+
+                <div class="hero-buttons">
+
+                    <button
+                        type="button"
+                        class="primary-button scroll-button"
+                        data-scroll-target="apartments"
+                        data-translate="exploreApartments"
+                    >
+                        Explore Apartments
+                    </button>
+
+                    <button
+                        type="button"
+                        class="secondary-button scroll-button"
+                        data-scroll-target="booking"
+                        data-translate="bookViewing"
+                    >
+                        Book a Viewing
+                    </button>
+
+                </div>
+
+            </div>
+
+            <button
+                type="button"
+                class="scroll-down-button scroll-button"
+                data-scroll-target="quickMenu"
+                aria-label="Scroll down"
+            >
+                ↓
+            </button>
+
+        </section>
+
+
+        <!-- ===================================================
+             QUICK MENU
+        ==================================================== -->
+
+        <section id="quickMenu" class="quick-menu">
+
+            <button
+                type="button"
+                class="quick-menu-item scroll-button"
+                data-scroll-target="apartments"
+            >
+                <span class="quick-menu-icon">🏨</span>
+                <span data-translate="apartments">Apartments</span>
+            </button>
+
+            <button
+                type="button"
+                class="quick-menu-item scroll-button"
+                data-scroll-target="facilities"
+            >
+                <span class="quick-menu-icon">🏊</span>
+                <span data-translate="facilities">Facilities</span>
+            </button>
+
+            <button
+                type="button"
+                class="quick-menu-item scroll-button"
+                data-scroll-target="booking"
+            >
+                <span class="quick-menu-icon">📅</span>
+                <span data-translate="booking">Booking</span>
+            </button>
+
+            <button
+                id="quickContactButton"
+                type="button"
+                class="quick-menu-item scroll-button"
+                data-scroll-target="contact"
+            >
+                <span class="quick-menu-icon">📞</span>
+                <span data-translate="contact">Contact</span>
+            </button>
+
+        </section>
+
+
+        <!-- ===================================================
+             APARTMENTS
+        ==================================================== -->
+
+        <section id="apartments" class="content-section apartments-section">
+
+            <div class="section-heading">
+
+                <p class="section-label" data-translate="residencesLabel">
+                    OUR RESIDENCES
+                </p>
+
+                <h2 data-translate="chooseApartment">
+                    Choose Your Apartment
+                </h2>
+
+                <p data-translate="apartmentIntroduction">
+                    Select a room type to view information, availability,
+                    prices and photos.
+                </p>
+
+            </div>
+
+
+            <!-- Apartment filters -->
+
+            <div class="apartment-filters">
+
+                <button
+                    type="button"
+                    class="filter-button active"
+                    data-filter="all"
+                    data-translate="allRooms"
+                >
+                    All
+                </button>
+
+                <button
+                    type="button"
+                    class="filter-button"
+                    data-filter="studio"
+                >
+                    Studio
+                </button>
+
+                <button
+                    type="button"
+                    class="filter-button"
+                    data-filter="one-bedroom"
+                >
+                    1 Bedroom
+                </button>
+
+                <button
+                    type="button"
+                    class="filter-button"
+                    data-filter="two-bedroom"
+                >
+                    2 Bedroom
+                </button>
+
+                <button
+                    type="button"
+                    class="filter-button"
+                    data-filter="penthouse"
+                >
+                    Penthouse
+                </button>
+
+            </div>
+
+
+            <!-- Apartments are inserted by app.js -->
+
+            <div id="apartmentGrid" class="apartment-grid">
+
+                <div class="loading-card">
+                    <div class="loading-spinner"></div>
+
+                    <p data-translate="loadingApartments">
+                        Loading apartments...
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ===================================================
+             FACILITIES
+        ==================================================== -->
+
+        <section id="facilities" class="content-section facilities-section">
+
+            <div class="section-heading">
+
+                <p class="section-label" data-translate="lifestyleLabel">
+                    PREMIUM LIFESTYLE
+                </p>
+
+                <h2 data-translate="facilitiesTitle">
+                    Facilities and Services
+                </h2>
+
+                <p data-translate="facilitiesDescription">
+                    Everything you need for convenient and comfortable living.
+                </p>
+
+            </div>
+
+
+            <div class="facility-grid">
+
+                <article class="facility-card">
+
+                    <div class="facility-icon">🏊</div>
+
+                    <h3 data-translate="swimmingPool">
+                        Swimming Pool
+                    </h3>
+
+                    <p data-translate="swimmingPoolDescription">
+                        Relax and enjoy our spacious outdoor swimming pool.
+                    </p>
+
+                </article>
+
+
+                <article class="facility-card">
+
+                    <div class="facility-icon">💪</div>
+
+                    <h3 data-translate="professionalGym">
+                        Professional Gym
+                    </h3>
+
+                    <p data-translate="professionalGymDescription">
+                        Modern fitness equipment for your daily exercise.
+                    </p>
+
+                </article>
+
+
+                <article class="facility-card">
+
+                    <div class="facility-icon">♨️</div>
+
+                    <h3 data-translate="steamSauna">
+                        Steam and Sauna
+                    </h3>
+
+                    <p data-translate="steamSaunaDescription">
+                        Refresh your body and relax after a busy day.
+                    </p>
+
+                </article>
+
+
+                <article class="facility-card">
+
+                    <div class="facility-icon">🧸</div>
+
+                    <h3 data-translate="kidsPlayground">
+                        Kids Playground
+                    </h3>
+
+                    <p data-translate="kidsPlaygroundDescription">
+                        A safe and comfortable play area for children.
+                    </p>
+
+                </article>
+
+
+                <article class="facility-card">
+
+                    <div class="facility-icon">🚗</div>
+
+                    <h3 data-translate="parking">
+                        In-house Parking
+                    </h3>
+
+                    <p data-translate="parkingDescription">
+                        Secure and convenient parking for residents.
+                    </p>
+
+                </article>
+
+
+                <article class="facility-card">
+
+                    <div class="facility-icon">🛎️</div>
+
+                    <h3 data-translate="reception">
+                        Reception Support
+                    </h3>
+
+                    <p data-translate="receptionDescription">
+                        Friendly assistance and professional resident support.
+                    </p>
+
+                </article>
+
+
+                <article class="facility-card">
+
+                    <div class="facility-icon">📶</div>
+
+                    <h3 data-translate="wifi">
+                        Wi-Fi Internet
+                    </h3>
+
+                    <p data-translate="wifiDescription">
+                        Internet service is provided throughout the apartment.
+                    </p>
+
+                </article>
+
+
+                <article class="facility-card">
+
+                    <div class="facility-icon">🛡️</div>
+
+                    <h3 data-translate="security">
+                        Security
+                    </h3>
+
+                    <p data-translate="securityDescription">
+                        Professional security service for resident safety.
+                    </p>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- ===================================================
+             SERVICES
+        ==================================================== -->
+
+        <section id="services" class="content-section services-section">
+
+            <div class="service-column included-service">
+
+                <div class="service-icon">✓</div>
+
+                <h2 data-translate="servicesIncluded">
+                    Services Included
+                </h2>
+
+                <ul id="servicesIncludedList" class="service-list">
+
+                    <li>Cable TV</li>
+                    <li>Fully equipped kitchen</li>
+                    <li>Iron and ironing board</li>
+                    <li>Safe deposit box</li>
+                    <li>Washing machine</li>
+                    <li>Dining table and chairs</li>
+                    <li>Management fee</li>
+                    <li>One in-house parking space</li>
+                    <li>Gym and swimming pool access</li>
+                    <li>Steam and sauna access</li>
+                    <li>Kids playground access</li>
+                    <li>Wi-Fi internet</li>
+                    <li>Water supply</li>
+                    <li>Building maintenance</li>
+
+                </ul>
+
+            </div>
+
+
+            <div class="service-column excluded-service">
+
+                <div class="service-icon">×</div>
+
+                <h2 data-translate="servicesExcluded">
+                    Services Excluded
+                </h2>
+
+                <ul id="servicesExcludedList" class="service-list">
+
+                    <li>Telephone IDD</li>
+                    <li>Electricity usage — $0.25/kWh</li>
+                    <li>Rooftop sky bar</li>
+
+                </ul>
+
+            </div>
+
+        </section>
+
+
+        <!-- ===================================================
+             BOOKING FORM
+        ==================================================== -->
+
+        <section id="booking" class="content-section booking-section">
+
+            <div class="section-heading">
+
+                <p class="section-label" data-translate="bookingLabel">
+                    SCHEDULE A VIEWING
+                </p>
+
+                <h2 data-translate="bookingTitle">
+                    Send Your Inquiry
+                </h2>
+
+                <p data-translate="bookingDescription">
+                    Complete the form and our team will contact you.
+                </p>
+
+            </div>
+
+
+            <form id="bookingForm" class="booking-form" novalidate>
+
+                <div class="form-group">
+
+                    <label for="guestName" data-translate="fullName">
+                        Full name
+                    </label>
+
+                    <input
+                        id="guestName"
+                        name="name"
+                        type="text"
+                        autocomplete="name"
+                        required
+                    >
+
+                    <small class="field-error"></small>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="guestPhone" data-translate="phoneNumber">
+                        Phone number
+                    </label>
+
+                    <input
+                        id="guestPhone"
+                        name="phone"
+                        type="tel"
+                        autocomplete="tel"
+                        required
+                    >
+
+                    <small class="field-error"></small>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="guestTelegram">
+                        Telegram
+                    </label>
+
+                    <input
+                        id="guestTelegram"
+                        name="telegram"
+                        type="text"
+                        placeholder="@username"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="guestEmail">
+                        Email
+                    </label>
+
+                    <input
+                        id="guestEmail"
+                        name="email"
+                        type="email"
+                        autocomplete="email"
+                    >
+
+                </div>
+
+
+                <div class="form-group form-group-full">
+
+                    <label for="apartmentSelect" data-translate="apartmentType">
+                        Apartment type
+                    </label>
+
+                    <select
+                        id="apartmentSelect"
+                        name="apartment"
+                        required
+                    >
+                        <option value="" data-translate="chooseApartmentOption">
+                            Choose an apartment
+                        </option>
+                    </select>
+
+                    <small class="field-error"></small>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="checkInDate" data-translate="checkIn">
+                        Check-in date
+                    </label>
+
+                    <input
+                        id="checkInDate"
+                        name="checkIn"
+                        type="date"
+                        required
+                    >
+
+                    <small class="field-error"></small>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="checkOutDate" data-translate="checkOut">
+                        Check-out date
+                    </label>
+
+                    <input
+                        id="checkOutDate"
+                        name="checkOut"
+                        type="date"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="stayLength" data-translate="stayLength">
+                        Expected stay
+                    </label>
+
+                    <select
+                        id="stayLength"
+                        name="stay"
+                        required
+                    >
+                        <option value="" data-translate="chooseStay">
+                            Choose stay length
+                        </option>
+
+                        <option value="1-3 months">
+                            1–3 months
+                        </option>
+
+                        <option value="3-6 months">
+                            3–6 months
+                        </option>
+
+                        <option value="6-12 months">
+                            6–12 months
+                        </option>
+
+                        <option value="12+ months">
+                            12+ months
+                        </option>
+                    </select>
+
+                    <small class="field-error"></small>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="monthlyBudget" data-translate="monthlyBudget">
+                        Monthly budget
+                    </label>
+
+                    <input
+                        id="monthlyBudget"
+                        name="budget"
+                        type="text"
+                        placeholder="USD"
+                    >
+
+                </div>
+
+
+                <div class="form-group form-group-full">
+
+                    <label for="guestMessage" data-translate="message">
+                        Message
+                    </label>
+
+                    <textarea
+                        id="guestMessage"
+                        name="message"
+                        rows="5"
+                        placeholder="Tell us what apartment you are looking for"
+                    ></textarea>
+
+                </div>
+
+
+                <div class="form-group form-group-full">
+
+                    <button
+                        id="submitInquiryButton"
+                        class="submit-button"
+                        type="submit"
+                        data-translate="sendInquiry"
+                    >
+                        Send Inquiry
+                    </button>
+
+                    <div
+                        id="formStatus"
+                        class="form-status"
+                        role="status"
+                        aria-live="polite"
+                    ></div>
+
+                </div>
+
+            </form>
+
+        </section>
+
+
+        <!-- ===================================================
+             CONTACT US — LAST SECTION OF MINI APP
+        ==================================================== -->
+
+        <section id="contact" class="contact-section">
+
+            <div class="contact-overlay"></div>
+
+            <div class="contact-content">
+
+                <p class="section-label contact-label" data-translate="contactLabel">
+                    WE ARE HERE TO HELP
+                </p>
+
+                <h2 data-translate="contactTitle">
+                    Contact Us
+                </h2>
+
+                <p class="contact-description" data-translate="contactDescription">
+                    Contact the Maline Apartments team for apartment
+                    availability, prices, appointments and more information.
+                </p>
+
+
+                <div class="contact-information">
+
+                    <a
+                        id="phoneContact"
+                        class="contact-card"
+                        href="tel:+85523985959"
+                    >
+                        <span class="contact-icon">📞</span>
+
+                        <span class="contact-text">
+
+                            <small data-translate="callReception">
+                                Call Reception
+                            </small>
+
+                            <strong>
+                                +855 23 985 959
+                            </strong>
+
+                        </span>
+                    </a>
+
+
+                    <button
+                        id="telegramContact"
+                        type="button"
+                        class="contact-card"
+                    >
+                        <span class="contact-icon">💬</span>
+
+                        <span class="contact-text">
+
+                            <small data-translate="telegramContact">
+                                Telegram
+                            </small>
+
+                            <strong data-translate="messageOurTeam">
+                                Message Our Team
+                            </strong>
+
+                        </span>
+                    </button>
+
+
+                    <button
+                        id="websiteContact"
+                        type="button"
+                        class="contact-card"
+                    >
+                        <span class="contact-icon">🌐</span>
+
+                        <span class="contact-text">
+
+                            <small data-translate="officialWebsite">
+                                Official Website
+                            </small>
+
+                            <strong>
+                                malineapartments.com.kh
+                            </strong>
+
+                        </span>
+                    </button>
+
+
+                    <button
+                        id="locationContact"
+                        type="button"
+                        class="contact-card"
+                    >
+                        <span class="contact-icon">📍</span>
+
+                        <span class="contact-text">
+
+                            <small data-translate="ourLocation">
+                                Our Location
+                            </small>
+
+                            <strong>
+                                Phnom Penh, Cambodia
+                            </strong>
+
+                        </span>
+                    </button>
+
+                </div>
+
+
+                <div class="social-media">
+
+                    <p data-translate="followUs">
+                        Follow Maline Apartments
+                    </p>
+
+                    <div class="social-buttons">
+
+                        <button
+                            id="facebookButton"
+                            type="button"
+                            class="social-button"
+                            aria-label="Facebook"
+                        >
+                            Facebook
+                        </button>
+
+                        <button
+                            id="instagramButton"
+                            type="button"
+                            class="social-button"
+                            aria-label="Instagram"
+                        >
+                            Instagram
+                        </button>
+
+                        <button
+                            id="tiktokButton"
+                            type="button"
+                            class="social-button"
+                            aria-label="TikTok"
+                        >
+                            TikTok
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ===================================================
+             FOOTER
+        ==================================================== -->
+
+        <footer class="mini-app-footer">
+
+            <img
+                src="/web/images/logo.png"
+                alt="Maline Apartments"
+                class="footer-logo"
+            >
+
+            <p>
+                Maline Exclusive Serviced Apartments
+            </p>
+
+            <p class="footer-copyright">
+                © <span id="currentYear"></span> Maline Apartments.
+                All rights reserved.
+            </p>
+
+        </footer>
+
+    </div>
+
+
+    <!-- =======================================================
+         APARTMENT PHOTO GALLERY MODAL
+    ======================================================== -->
+
+    <div
+        id="galleryModal"
+        class="gallery-modal"
+        hidden
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="galleryTitle"
+    >
+
+        <button
+            type="button"
+            class="gallery-background"
+            data-close-gallery
+            aria-label="Close gallery"
+        ></button>
+
+        <div class="gallery-container">
+
+            <button
+                type="button"
+                id="closeGalleryButton"
+                class="gallery-close-button"
+                data-close-gallery
+                aria-label="Close gallery"
+            >
+                ×
+            </button>
+
+
+            <div class="gallery-image-container">
+
+                <img
+                    id="galleryImage"
+                    src="/web/images/building.jpg"
+                    alt="Apartment photo"
+                >
+
+                <button
+                    type="button"
+                    id="previousImageButton"
+                    class="gallery-navigation gallery-previous"
+                    aria-label="Previous image"
+                >
+                    ‹
+                </button>
+
+                <button
+                    type="button"
+                    id="nextImageButton"
+                    class="gallery-navigation gallery-next"
+                    aria-label="Next image"
+                >
+                    ›
+                </button>
+
+            </div>
+
+
+            <div class="gallery-information">
+
+                <h3 id="galleryTitle">
+                    Apartment
+                </h3>
+
+                <p id="galleryDetails"></p>
+
+                <div class="gallery-counter">
+                    <span id="currentImageNumber">1</span>
+                    /
+                    <span id="totalImageNumber">1</span>
+                </div>
+
+
+                <button
+                    id="selectApartmentButton"
+                    type="button"
+                    class="submit-button"
+                    data-translate="chooseThisApartment"
+                >
+                    Choose This Apartment
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =======================================================
+         APP JAVASCRIPT
+    ======================================================== -->
+
+    <script src="/web/app.js"></script>
+
+</body>
+</html>
