@@ -1,29 +1,16 @@
 {
-  "name": "maline-mini-app-v3",
-  "version": "3.0.0",
-  "description": "Maline Apartments Telegram Bot and Mini App Version 3",
-  "main": "index.js",
-  "type": "commonjs",
+  "name": "maline-premium-language-bot",
+  "version": "1.0.0",
+  "private": true,
+  "main": "src/index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "node --watch index.js",
-    "check": "node --check index.js"
+    "start": "node src/index.js"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=18"
   },
-  "keywords": [
-    "telegram",
-    "telegram-bot",
-    "telegram-mini-app",
-    "maline-apartments",
-    "telegraf",
-    "railway"
-  ],
-  "author": "Maline Apartments",
-  "license": "UNLICENSED",
   "dependencies": {
-    "dotenv": "^16.4.7",
+    "dotenv": "^16.4.5",
     "telegraf": "^4.16.3"
   }
 }

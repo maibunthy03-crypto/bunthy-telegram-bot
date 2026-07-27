@@ -1,1151 +1,797 @@
-"use strict";
-
-const LANGUAGES = [
+module.exports = [
   {
     "code": "af",
     "flag": "🇿🇦",
-    "name": "Afrikaans",
-    "native": "Afrikaans"
+    "name": "Afrikaans"
   },
   {
     "code": "sq",
     "flag": "🇦🇱",
-    "name": "Albanian",
-    "native": "Shqip"
+    "name": "Albanian"
   },
   {
     "code": "am",
     "flag": "🇪🇹",
-    "name": "Amharic",
-    "native": "አማርኛ"
+    "name": "Amharic"
   },
   {
     "code": "ar",
     "flag": "🇸🇦",
-    "name": "Arabic",
-    "native": "العربية"
+    "name": "Arabic"
   },
   {
     "code": "hy",
     "flag": "🇦🇲",
-    "name": "Armenian",
-    "native": "Հայերեն"
+    "name": "Armenian"
   },
   {
     "code": "as",
     "flag": "🇮🇳",
-    "name": "Assamese",
-    "native": "অসমীয়া"
+    "name": "Assamese"
   },
   {
     "code": "ay",
     "flag": "🇧🇴",
-    "name": "Aymara",
-    "native": "Aymar aru"
+    "name": "Aymara"
   },
   {
     "code": "az",
     "flag": "🇦🇿",
-    "name": "Azerbaijani",
-    "native": "Azərbaycan"
+    "name": "Azerbaijani"
   },
   {
     "code": "bm",
     "flag": "🇲🇱",
-    "name": "Bambara",
-    "native": "Bamanankan"
+    "name": "Bambara"
   },
   {
     "code": "eu",
     "flag": "🇪🇸",
-    "name": "Basque",
-    "native": "Euskara"
+    "name": "Basque"
   },
   {
     "code": "be",
     "flag": "🇧🇾",
-    "name": "Belarusian",
-    "native": "Беларуская"
+    "name": "Belarusian"
   },
   {
     "code": "bn",
     "flag": "🇧🇩",
-    "name": "Bengali",
-    "native": "বাংলা"
+    "name": "Bengali"
   },
   {
     "code": "bho",
     "flag": "🇮🇳",
-    "name": "Bhojpuri",
-    "native": "भोजपुरी"
+    "name": "Bhojpuri"
   },
   {
     "code": "bs",
     "flag": "🇧🇦",
-    "name": "Bosnian",
-    "native": "Bosanski"
+    "name": "Bosnian"
   },
   {
     "code": "bg",
     "flag": "🇧🇬",
-    "name": "Bulgarian",
-    "native": "Български"
+    "name": "Bulgarian"
   },
   {
     "code": "ca",
     "flag": "🇪🇸",
-    "name": "Catalan",
-    "native": "Català"
+    "name": "Catalan"
   },
   {
     "code": "ceb",
     "flag": "🇵🇭",
-    "name": "Cebuano",
-    "native": "Cebuano"
-  },
-  {
-    "code": "ny",
-    "flag": "🇲🇼",
-    "name": "Chichewa",
-    "native": "Chichewa"
+    "name": "Cebuano"
   },
   {
     "code": "zh-CN",
     "flag": "🇨🇳",
-    "name": "Chinese Simplified",
-    "native": "简体中文"
+    "name": "Chinese Simplified"
   },
   {
     "code": "zh-TW",
     "flag": "🇹🇼",
-    "name": "Chinese Traditional",
-    "native": "繁體中文"
+    "name": "Chinese Traditional"
   },
   {
     "code": "co",
     "flag": "🇫🇷",
-    "name": "Corsican",
-    "native": "Corsu"
+    "name": "Corsican"
   },
   {
     "code": "hr",
     "flag": "🇭🇷",
-    "name": "Croatian",
-    "native": "Hrvatski"
+    "name": "Croatian"
   },
   {
     "code": "cs",
     "flag": "🇨🇿",
-    "name": "Czech",
-    "native": "Čeština"
+    "name": "Czech"
   },
   {
     "code": "da",
     "flag": "🇩🇰",
-    "name": "Danish",
-    "native": "Dansk"
+    "name": "Danish"
   },
   {
     "code": "dv",
     "flag": "🇲🇻",
-    "name": "Dhivehi",
-    "native": "ދިވެހި"
+    "name": "Dhivehi"
   },
   {
     "code": "doi",
     "flag": "🇮🇳",
-    "name": "Dogri",
-    "native": "डोगरी"
+    "name": "Dogri"
   },
   {
     "code": "nl",
     "flag": "🇳🇱",
-    "name": "Dutch",
-    "native": "Nederlands"
+    "name": "Dutch"
   },
   {
     "code": "en",
     "flag": "🇬🇧",
-    "name": "English",
-    "native": "English"
+    "name": "English"
   },
   {
     "code": "eo",
     "flag": "🌍",
-    "name": "Esperanto",
-    "native": "Esperanto"
+    "name": "Esperanto"
   },
   {
     "code": "et",
     "flag": "🇪🇪",
-    "name": "Estonian",
-    "native": "Eesti"
+    "name": "Estonian"
   },
   {
     "code": "ee",
     "flag": "🇬🇭",
-    "name": "Ewe",
-    "native": "Eʋegbe"
+    "name": "Ewe"
   },
   {
     "code": "fil",
     "flag": "🇵🇭",
-    "name": "Filipino",
-    "native": "Filipino"
+    "name": "Filipino"
   },
   {
     "code": "fi",
     "flag": "🇫🇮",
-    "name": "Finnish",
-    "native": "Suomi"
+    "name": "Finnish"
   },
   {
     "code": "fr",
     "flag": "🇫🇷",
-    "name": "French",
-    "native": "Français"
+    "name": "French"
   },
   {
     "code": "fy",
     "flag": "🇳🇱",
-    "name": "Frisian",
-    "native": "Frysk"
+    "name": "Frisian"
   },
   {
     "code": "gl",
     "flag": "🇪🇸",
-    "name": "Galician",
-    "native": "Galego"
+    "name": "Galician"
   },
   {
     "code": "ka",
     "flag": "🇬🇪",
-    "name": "Georgian",
-    "native": "ქართული"
+    "name": "Georgian"
   },
   {
     "code": "de",
     "flag": "🇩🇪",
-    "name": "German",
-    "native": "Deutsch"
+    "name": "German"
   },
   {
     "code": "el",
     "flag": "🇬🇷",
-    "name": "Greek",
-    "native": "Ελληνικά"
+    "name": "Greek"
   },
   {
     "code": "gn",
     "flag": "🇵🇾",
-    "name": "Guarani",
-    "native": "Avañe'ẽ"
+    "name": "Guarani"
   },
   {
     "code": "gu",
     "flag": "🇮🇳",
-    "name": "Gujarati",
-    "native": "ગુજરાતી"
+    "name": "Gujarati"
   },
   {
     "code": "ht",
     "flag": "🇭🇹",
-    "name": "Haitian Creole",
-    "native": "Kreyòl ayisyen"
+    "name": "Haitian Creole"
   },
   {
     "code": "ha",
     "flag": "🇳🇬",
-    "name": "Hausa",
-    "native": "Hausa"
+    "name": "Hausa"
   },
   {
     "code": "haw",
     "flag": "🇺🇸",
-    "name": "Hawaiian",
-    "native": "ʻŌlelo Hawaiʻi"
+    "name": "Hawaiian"
   },
   {
     "code": "he",
     "flag": "🇮🇱",
-    "name": "Hebrew",
-    "native": "עברית"
+    "name": "Hebrew"
   },
   {
     "code": "hi",
     "flag": "🇮🇳",
-    "name": "Hindi",
-    "native": "हिन्दी"
+    "name": "Hindi"
   },
   {
     "code": "hmn",
-    "flag": "🌏",
-    "name": "Hmong",
-    "native": "Hmoob"
+    "flag": "🇱🇦",
+    "name": "Hmong"
   },
   {
     "code": "hu",
     "flag": "🇭🇺",
-    "name": "Hungarian",
-    "native": "Magyar"
+    "name": "Hungarian"
   },
   {
     "code": "is",
     "flag": "🇮🇸",
-    "name": "Icelandic",
-    "native": "Íslenska"
+    "name": "Icelandic"
   },
   {
     "code": "ig",
     "flag": "🇳🇬",
-    "name": "Igbo",
-    "native": "Igbo"
+    "name": "Igbo"
   },
   {
     "code": "ilo",
     "flag": "🇵🇭",
-    "name": "Ilocano",
-    "native": "Ilocano"
+    "name": "Ilocano"
   },
   {
     "code": "id",
     "flag": "🇮🇩",
-    "name": "Indonesian",
-    "native": "Bahasa Indonesia"
+    "name": "Indonesian"
   },
   {
     "code": "ga",
     "flag": "🇮🇪",
-    "name": "Irish",
-    "native": "Gaeilge"
+    "name": "Irish"
   },
   {
     "code": "it",
     "flag": "🇮🇹",
-    "name": "Italian",
-    "native": "Italiano"
+    "name": "Italian"
   },
   {
     "code": "ja",
     "flag": "🇯🇵",
-    "name": "Japanese",
-    "native": "日本語"
+    "name": "Japanese"
   },
   {
     "code": "jv",
     "flag": "🇮🇩",
-    "name": "Javanese",
-    "native": "Basa Jawa"
+    "name": "Javanese"
   },
   {
     "code": "kn",
     "flag": "🇮🇳",
-    "name": "Kannada",
-    "native": "ಕನ್ನಡ"
+    "name": "Kannada"
   },
   {
     "code": "kk",
     "flag": "🇰🇿",
-    "name": "Kazakh",
-    "native": "Қазақша"
+    "name": "Kazakh"
   },
   {
     "code": "km",
     "flag": "🇰🇭",
-    "name": "Khmer",
-    "native": "ភាសាខ្មែរ"
+    "name": "Khmer"
   },
   {
     "code": "rw",
     "flag": "🇷🇼",
-    "name": "Kinyarwanda",
-    "native": "Ikinyarwanda"
+    "name": "Kinyarwanda"
   },
   {
     "code": "gom",
     "flag": "🇮🇳",
-    "name": "Konkani",
-    "native": "कोंकणी"
+    "name": "Konkani"
   },
   {
     "code": "ko",
     "flag": "🇰🇷",
-    "name": "Korean",
-    "native": "한국어"
+    "name": "Korean"
   },
   {
     "code": "kri",
     "flag": "🇸🇱",
-    "name": "Krio",
-    "native": "Krio"
+    "name": "Krio"
   },
   {
     "code": "ku",
-    "flag": "🌍",
-    "name": "Kurdish",
-    "native": "Kurdî"
+    "flag": "🇹🇷",
+    "name": "Kurdish"
   },
   {
     "code": "ckb",
-    "flag": "🌍",
-    "name": "Kurdish Sorani",
-    "native": "کوردی"
+    "flag": "🇮🇶",
+    "name": "Kurdish Sorani"
   },
   {
     "code": "ky",
     "flag": "🇰🇬",
-    "name": "Kyrgyz",
-    "native": "Кыргызча"
+    "name": "Kyrgyz"
   },
   {
     "code": "lo",
     "flag": "🇱🇦",
-    "name": "Lao",
-    "native": "ລາວ"
+    "name": "Lao"
   },
   {
     "code": "la",
-    "flag": "🏛️",
-    "name": "Latin",
-    "native": "Latina"
+    "flag": "🇻🇦",
+    "name": "Latin"
   },
   {
     "code": "lv",
     "flag": "🇱🇻",
-    "name": "Latvian",
-    "native": "Latviešu"
+    "name": "Latvian"
   },
   {
     "code": "ln",
     "flag": "🇨🇩",
-    "name": "Lingala",
-    "native": "Lingála"
+    "name": "Lingala"
   },
   {
     "code": "lt",
     "flag": "🇱🇹",
-    "name": "Lithuanian",
-    "native": "Lietuvių"
+    "name": "Lithuanian"
   },
   {
     "code": "lg",
     "flag": "🇺🇬",
-    "name": "Luganda",
-    "native": "Luganda"
+    "name": "Luganda"
   },
   {
     "code": "lb",
     "flag": "🇱🇺",
-    "name": "Luxembourgish",
-    "native": "Lëtzebuergesch"
+    "name": "Luxembourgish"
   },
   {
     "code": "mk",
     "flag": "🇲🇰",
-    "name": "Macedonian",
-    "native": "Македонски"
+    "name": "Macedonian"
   },
   {
     "code": "mai",
     "flag": "🇮🇳",
-    "name": "Maithili",
-    "native": "मैथिली"
+    "name": "Maithili"
   },
   {
     "code": "mg",
     "flag": "🇲🇬",
-    "name": "Malagasy",
-    "native": "Malagasy"
+    "name": "Malagasy"
   },
   {
     "code": "ms",
     "flag": "🇲🇾",
-    "name": "Malay",
-    "native": "Bahasa Melayu"
+    "name": "Malay"
   },
   {
     "code": "ml",
     "flag": "🇮🇳",
-    "name": "Malayalam",
-    "native": "മലയാളം"
+    "name": "Malayalam"
   },
   {
     "code": "mt",
     "flag": "🇲🇹",
-    "name": "Maltese",
-    "native": "Malti"
+    "name": "Maltese"
   },
   {
     "code": "mi",
     "flag": "🇳🇿",
-    "name": "Maori",
-    "native": "Māori"
+    "name": "Maori"
   },
   {
     "code": "mr",
     "flag": "🇮🇳",
-    "name": "Marathi",
-    "native": "मराठी"
+    "name": "Marathi"
   },
   {
-    "code": "mni",
+    "code": "mni-Mtei",
     "flag": "🇮🇳",
-    "name": "Meiteilon",
-    "native": "ꯃꯤꯇꯩꯂꯣꯟ"
+    "name": "Meiteilon"
   },
   {
     "code": "lus",
     "flag": "🇮🇳",
-    "name": "Mizo",
-    "native": "Mizo ṭawng"
+    "name": "Mizo"
   },
   {
     "code": "mn",
     "flag": "🇲🇳",
-    "name": "Mongolian",
-    "native": "Монгол"
+    "name": "Mongolian"
   },
   {
     "code": "my",
     "flag": "🇲🇲",
-    "name": "Myanmar",
-    "native": "မြန်မာ"
+    "name": "Myanmar"
   },
   {
     "code": "ne",
     "flag": "🇳🇵",
-    "name": "Nepali",
-    "native": "नेपाली"
+    "name": "Nepali"
   },
   {
     "code": "no",
     "flag": "🇳🇴",
-    "name": "Norwegian",
-    "native": "Norsk"
+    "name": "Norwegian"
+  },
+  {
+    "code": "ny",
+    "flag": "🇲🇼",
+    "name": "Nyanja"
   },
   {
     "code": "or",
     "flag": "🇮🇳",
-    "name": "Odia",
-    "native": "ଓଡ଼ିଆ"
+    "name": "Odia"
   },
   {
     "code": "om",
     "flag": "🇪🇹",
-    "name": "Oromo",
-    "native": "Afaan Oromoo"
+    "name": "Oromo"
   },
   {
     "code": "ps",
     "flag": "🇦🇫",
-    "name": "Pashto",
-    "native": "پښتو"
+    "name": "Pashto"
   },
   {
     "code": "fa",
     "flag": "🇮🇷",
-    "name": "Persian",
-    "native": "فارسی"
+    "name": "Persian"
   },
   {
     "code": "pl",
     "flag": "🇵🇱",
-    "name": "Polish",
-    "native": "Polski"
+    "name": "Polish"
   },
   {
     "code": "pt",
     "flag": "🇵🇹",
-    "name": "Portuguese",
-    "native": "Português"
+    "name": "Portuguese"
   },
   {
     "code": "pa",
     "flag": "🇮🇳",
-    "name": "Punjabi",
-    "native": "ਪੰਜਾਬੀ"
+    "name": "Punjabi"
   },
   {
     "code": "qu",
     "flag": "🇵🇪",
-    "name": "Quechua",
-    "native": "Runasimi"
+    "name": "Quechua"
   },
   {
     "code": "ro",
     "flag": "🇷🇴",
-    "name": "Romanian",
-    "native": "Română"
+    "name": "Romanian"
   },
   {
     "code": "ru",
     "flag": "🇷🇺",
-    "name": "Russian",
-    "native": "Русский"
+    "name": "Russian"
   },
   {
     "code": "sm",
     "flag": "🇼🇸",
-    "name": "Samoan",
-    "native": "Gagana Samoa"
+    "name": "Samoan"
   },
   {
     "code": "sa",
     "flag": "🇮🇳",
-    "name": "Sanskrit",
-    "native": "संस्कृतम्"
+    "name": "Sanskrit"
   },
   {
     "code": "gd",
     "flag": "🏴",
-    "name": "Scots Gaelic",
-    "native": "Gàidhlig"
+    "name": "Scots Gaelic"
   },
   {
     "code": "nso",
     "flag": "🇿🇦",
-    "name": "Sepedi",
-    "native": "Sepedi"
+    "name": "Sepedi"
   },
   {
     "code": "sr",
     "flag": "🇷🇸",
-    "name": "Serbian",
-    "native": "Српски"
+    "name": "Serbian"
   },
   {
     "code": "st",
     "flag": "🇱🇸",
-    "name": "Sesotho",
-    "native": "Sesotho"
+    "name": "Sesotho"
   },
   {
     "code": "sn",
     "flag": "🇿🇼",
-    "name": "Shona",
-    "native": "ChiShona"
+    "name": "Shona"
   },
   {
     "code": "sd",
     "flag": "🇵🇰",
-    "name": "Sindhi",
-    "native": "سنڌي"
+    "name": "Sindhi"
   },
   {
     "code": "si",
     "flag": "🇱🇰",
-    "name": "Sinhala",
-    "native": "සිංහල"
+    "name": "Sinhala"
   },
   {
     "code": "sk",
     "flag": "🇸🇰",
-    "name": "Slovak",
-    "native": "Slovenčina"
+    "name": "Slovak"
   },
   {
     "code": "sl",
     "flag": "🇸🇮",
-    "name": "Slovenian",
-    "native": "Slovenščina"
+    "name": "Slovenian"
   },
   {
     "code": "so",
     "flag": "🇸🇴",
-    "name": "Somali",
-    "native": "Soomaali"
+    "name": "Somali"
   },
   {
     "code": "es",
     "flag": "🇪🇸",
-    "name": "Spanish",
-    "native": "Español"
+    "name": "Spanish"
   },
   {
     "code": "su",
     "flag": "🇮🇩",
-    "name": "Sundanese",
-    "native": "Basa Sunda"
+    "name": "Sundanese"
   },
   {
     "code": "sw",
-    "flag": "🇰🇪",
-    "name": "Swahili",
-    "native": "Kiswahili"
+    "flag": "🇹🇿",
+    "name": "Swahili"
   },
   {
     "code": "sv",
     "flag": "🇸🇪",
-    "name": "Swedish",
-    "native": "Svenska"
+    "name": "Swedish"
+  },
+  {
+    "code": "tl",
+    "flag": "🇵🇭",
+    "name": "Tagalog"
   },
   {
     "code": "tg",
     "flag": "🇹🇯",
-    "name": "Tajik",
-    "native": "Тоҷикӣ"
+    "name": "Tajik"
   },
   {
     "code": "ta",
     "flag": "🇮🇳",
-    "name": "Tamil",
-    "native": "தமிழ்"
+    "name": "Tamil"
   },
   {
     "code": "tt",
-    "flag": "🌍",
-    "name": "Tatar",
-    "native": "Татарча"
+    "flag": "🇷🇺",
+    "name": "Tatar"
   },
   {
     "code": "te",
     "flag": "🇮🇳",
-    "name": "Telugu",
-    "native": "తెలుగు"
+    "name": "Telugu"
   },
   {
     "code": "th",
     "flag": "🇹🇭",
-    "name": "Thai",
-    "native": "ไทย"
+    "name": "Thai"
   },
   {
     "code": "ti",
     "flag": "🇪🇷",
-    "name": "Tigrinya",
-    "native": "ትግርኛ"
+    "name": "Tigrinya"
   },
   {
     "code": "ts",
     "flag": "🇿🇦",
-    "name": "Tsonga",
-    "native": "itsonga"
+    "name": "Tsonga"
   },
   {
     "code": "tr",
     "flag": "🇹🇷",
-    "name": "Turkish",
-    "native": "Türkçe"
+    "name": "Turkish"
   },
   {
     "code": "tk",
     "flag": "🇹🇲",
-    "name": "Turkmen",
-    "native": "Türkmençe"
+    "name": "Turkmen"
   },
   {
     "code": "ak",
     "flag": "🇬🇭",
-    "name": "Twi",
-    "native": "Twi"
+    "name": "Twi"
   },
   {
     "code": "uk",
     "flag": "🇺🇦",
-    "name": "Ukrainian",
-    "native": "Українська"
+    "name": "Ukrainian"
   },
   {
     "code": "ur",
     "flag": "🇵🇰",
-    "name": "Urdu",
-    "native": "اردو"
+    "name": "Urdu"
   },
   {
     "code": "ug",
-    "flag": "🌏",
-    "name": "Uyghur",
-    "native": "ئۇيغۇرچە"
+    "flag": "🇨🇳",
+    "name": "Uyghur"
   },
   {
     "code": "uz",
     "flag": "🇺🇿",
-    "name": "Uzbek",
-    "native": "Oʻzbekcha"
+    "name": "Uzbek"
   },
   {
     "code": "vi",
     "flag": "🇻🇳",
-    "name": "Vietnamese",
-    "native": "Tiếng Việt"
+    "name": "Vietnamese"
   },
   {
     "code": "cy",
     "flag": "🏴",
-    "name": "Welsh",
-    "native": "Cymraeg"
+    "name": "Welsh"
   },
   {
     "code": "xh",
     "flag": "🇿🇦",
-    "name": "Xhosa",
-    "native": "isiXhosa"
+    "name": "Xhosa"
   },
   {
     "code": "yi",
-    "flag": "🌍",
-    "name": "Yiddish",
-    "native": "ייִדיש"
+    "flag": "🇮🇱",
+    "name": "Yiddish"
   },
   {
     "code": "yo",
     "flag": "🇳🇬",
-    "name": "Yoruba",
-    "native": "Yorùbá"
+    "name": "Yoruba"
   },
   {
     "code": "zu",
     "flag": "🇿🇦",
-    "name": "Zulu",
-    "native": "isiZulu"
+    "name": "Zulu"
   },
   {
     "code": "ace",
     "flag": "🇮🇩",
-    "name": "Acehnese",
-    "native": "Bahsa Acèh"
+    "name": "Acehnese"
   },
   {
     "code": "ach",
     "flag": "🇺🇬",
-    "name": "Acholi",
-    "native": "Lwo"
+    "name": "Acholi"
   },
   {
     "code": "awa",
     "flag": "🇮🇳",
-    "name": "Awadhi",
-    "native": "अवधी"
+    "name": "Awadhi"
   },
   {
     "code": "bal",
     "flag": "🇵🇰",
-    "name": "Balochi",
-    "native": "بلوچی"
+    "name": "Baluchi"
   },
   {
     "code": "ban",
     "flag": "🇮🇩",
-    "name": "Balinese",
-    "native": "Basa Bali"
+    "name": "Balinese"
   },
   {
-    "code": "ba",
-    "flag": "🇷🇺",
-    "name": "Bashkir",
-    "native": "Башҡортса"
+    "code": "bem",
+    "flag": "🇿🇲",
+    "name": "Bemba"
   },
   {
-    "code": "ber",
-    "flag": "🌍",
-    "name": "Berber",
-    "native": "Tamaziɣt"
+    "code": "bet",
+    "flag": "🇨🇮",
+    "name": "Bété"
+  },
+  {
+    "code": "bik",
+    "flag": "🇵🇭",
+    "name": "Bikol"
   },
   {
     "code": "br",
     "flag": "🇫🇷",
-    "name": "Breton",
-    "native": "Brezhoneg"
-  },
-  {
-    "code": "bua",
-    "flag": "🇷🇺",
-    "name": "Buryat",
-    "native": "Буряад"
+    "name": "Breton"
   },
   {
     "code": "ch",
     "flag": "🇬🇺",
-    "name": "Chamorro",
-    "native": "Chamoru"
+    "name": "Chamorro"
   },
   {
-    "code": "chr",
-    "flag": "🇺🇸",
-    "name": "Cherokee",
-    "native": "ᏣᎳᎩ"
-  },
-  {
-    "code": "cv",
+    "code": "ce",
     "flag": "🇷🇺",
-    "name": "Chuvash",
-    "native": "Чӑвашла"
+    "name": "Chechen"
+  },
+  {
+    "code": "chk",
+    "flag": "🇫🇲",
+    "name": "Chuukese"
+  },
+  {
+    "code": "crh",
+    "flag": "🇺🇦",
+    "name": "Crimean Tatar"
   },
   {
     "code": "din",
     "flag": "🇸🇸",
-    "name": "Dinka",
-    "native": "Thuɔŋjäŋ"
-  },
-  {
-    "code": "dz",
-    "flag": "🇧🇹",
-    "name": "Dzongkha",
-    "native": "རྫོང་ཁ"
-  },
-  {
-    "code": "fo",
-    "flag": "🇫🇴",
-    "name": "Faroese",
-    "native": "Føroyskt"
+    "name": "Dinka"
   },
   {
     "code": "fj",
     "flag": "🇫🇯",
-    "name": "Fijian",
-    "native": "Vosa Vakaviti"
+    "name": "Fijian"
   },
   {
-    "code": "fur",
-    "flag": "🇮🇹",
-    "name": "Friulian",
-    "native": "Furlan"
+    "code": "fon",
+    "flag": "🇧🇯",
+    "name": "Fon"
   },
   {
     "code": "gaa",
     "flag": "🇬🇭",
-    "name": "Ga",
-    "native": "Gã"
+    "name": "Ga"
   },
   {
-    "code": "grc",
-    "flag": "🏛️",
-    "name": "Ancient Greek",
-    "native": "Ἑλληνική"
-  },
-  {
-    "code": "kl",
-    "flag": "🇬🇱",
-    "name": "Greenlandic",
-    "native": "Kalaallisut"
+    "code": "gil",
+    "flag": "🇰🇮",
+    "name": "Gilbertese"
   },
   {
     "code": "hil",
     "flag": "🇵🇭",
-    "name": "Hiligaynon",
-    "native": "Ilonggo"
+    "name": "Hiligaynon"
   },
   {
     "code": "iba",
     "flag": "🇲🇾",
-    "name": "Iban",
-    "native": "Jaku Iban"
+    "name": "Iban"
   },
   {
-    "code": "io",
-    "flag": "🌍",
-    "name": "Ido",
-    "native": "Ido"
-  },
-  {
-    "code": "iu",
-    "flag": "🇨🇦",
-    "name": "Inuktitut",
-    "native": "ᐃᓄᒃᑎᑐᑦ"
+    "code": "kac",
+    "flag": "🇲🇲",
+    "name": "Jingpo"
   },
   {
     "code": "kab",
     "flag": "🇩🇿",
-    "name": "Kabyle",
-    "native": "Taqbaylit"
+    "name": "Kabyle"
   },
   {
-    "code": "kea",
-    "flag": "🇨🇻",
-    "name": "Kabuverdianu",
-    "native": "Kabuverdianu"
+    "code": "kam",
+    "flag": "🇰🇪",
+    "name": "Kamba"
   },
   {
     "code": "kg",
     "flag": "🇨🇩",
-    "name": "Kongo",
-    "native": "Kikongo"
+    "name": "Kikongo"
   },
   {
-    "code": "kok",
-    "flag": "🇮🇳",
-    "name": "Konkani Devanagari",
-    "native": "कोंकणी"
-  },
-  {
-    "code": "kr",
-    "flag": "🇳🇬",
-    "name": "Kanuri",
-    "native": "Kanuri"
-  },
-  {
-    "code": "ks",
-    "flag": "🇮🇳",
-    "name": "Kashmiri",
-    "native": "کٲشُر"
-  },
-  {
-    "code": "lez",
-    "flag": "🇷🇺",
-    "name": "Lezgian",
-    "native": "Лезги"
-  },
-  {
-    "code": "li",
-    "flag": "🇳🇱",
-    "name": "Limburgish",
-    "native": "Limburgs"
-  },
-  {
-    "code": "loz",
-    "flag": "🇿🇲",
-    "name": "Lozi",
-    "native": "Silozi"
-  },
-  {
-    "code": "lua",
-    "flag": "🇨🇩",
-    "name": "Luba-Kasai",
-    "native": "Tshiluba"
-  },
-  {
-    "code": "mad",
-    "flag": "🇮🇩",
-    "name": "Madurese",
-    "native": "Madhurâ"
-  },
-  {
-    "code": "mh",
-    "flag": "🇲🇭",
-    "name": "Marshallese",
-    "native": "Kajin M̧ajeļ"
-  },
-  {
-    "code": "mos",
-    "flag": "🇧🇫",
-    "name": "Mossi",
-    "native": "Mooré"
-  },
-  {
-    "code": "na",
-    "flag": "🇳🇷",
-    "name": "Nauruan",
-    "native": "Dorerin Naoero"
-  },
-  {
-    "code": "nd",
-    "flag": "🇿🇼",
-    "name": "Northern Ndebele",
-    "native": "isiNdebele"
-  },
-  {
-    "code": "nr",
-    "flag": "🇿🇦",
-    "name": "Southern Ndebele",
-    "native": "isiNdebele"
-  },
-  {
-    "code": "oc",
-    "flag": "🇫🇷",
-    "name": "Occitan",
-    "native": "Occitan"
-  },
-  {
-    "code": "pap",
-    "flag": "🇨🇼",
-    "name": "Papiamento",
-    "native": "Papiamentu"
-  },
-  {
-    "code": "rm",
-    "flag": "🇨🇭",
-    "name": "Romansh",
-    "native": "Rumantsch"
-  },
-  {
-    "code": "rn",
-    "flag": "🇧🇮",
-    "name": "Kirundi",
-    "native": "Ikirundi"
-  },
-  {
-    "code": "sc",
-    "flag": "🇮🇹",
-    "name": "Sardinian",
-    "native": "Sardu"
-  },
-  {
-    "code": "ss",
-    "flag": "🇸🇿",
-    "name": "Swati",
-    "native": "SiSwati"
-  },
-  {
-    "code": "tet",
-    "flag": "🇹🇱",
-    "name": "Tetum",
-    "native": "Tetun"
-  },
-  {
-    "code": "to",
-    "flag": "🇹🇴",
-    "name": "Tongan",
-    "native": "Lea faka-Tonga"
-  },
-  {
-    "code": "ty",
-    "flag": "🇵🇫",
-    "name": "Tahitian",
-    "native": "Reo Tahiti"
-  },
-  {
-    "code": "ve",
-    "flag": "🇿🇦",
-    "name": "Venda",
-    "native": "Tshivenḓa"
-  },
-  {
-    "code": "war",
-    "flag": "🇵🇭",
-    "name": "Waray",
-    "native": "Winaray"
-  },
-  {
-    "code": "wo",
-    "flag": "🇸🇳",
-    "name": "Wolof",
-    "native": "Wolof"
-  },
-  {
-    "code": "zap",
-    "flag": "🇲🇽",
-    "name": "Zapotec",
-    "native": "Diidxazá"
+    "code": "kj",
+    "flag": "🇳🇦",
+    "name": "Kuanyama"
   }
 ];
-
-
-const findLanguageByCode = (code) =>
-  LANGUAGES.find((language) => language.code === String(code)) || null;
-
-const isSupportedLanguage = (code) => Boolean(findLanguageByCode(code));
-
-const getLanguageLabel = (code) => {
-  const language = findLanguageByCode(code);
-  return language
-    ? `${language.flag} ${language.name} — ${language.native}`
-    : String(code || "Unknown");
-};
-
-const searchLanguages = (query) => {
-  const term = String(query || "").trim().toLowerCase();
-  if (!term) return LANGUAGES;
-  return LANGUAGES.filter((language) =>
-    language.code.toLowerCase().includes(term) ||
-    language.name.toLowerCase().includes(term) ||
-    language.native.toLowerCase().includes(term)
-  );
-};
-
-module.exports = {
-  LANGUAGES,
-  findLanguageByCode,
-  isSupportedLanguage,
-  getLanguageLabel,
-  searchLanguages
-};
