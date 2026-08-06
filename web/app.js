@@ -69,16 +69,16 @@ const APP_CONFIG = {
         "",
 
     defaultGoogleMaps:
-        "",
+        "https://maps.app.goo.gl/VgabTC9U8D5KthbX7",
 
     facebook:
-        "",
+        "https://www.facebook.com/MalineExclusiveServicedApartments/",
 
     instagram:
-        "",
+        "https://www.instagram.com/malineapartments214/",
 
     tiktok:
-        "",
+        "https://www.tiktok.com/@maline.apartments",
 
     splashDuration:
         3300,
