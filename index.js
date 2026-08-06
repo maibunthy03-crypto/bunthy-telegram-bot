@@ -8,9 +8,9 @@ const OWNER_ID=Number(process.env.OWNER_ID||0);
 const DEFAULT_STAFF_GROUP_ID=String(process.env.STAFF_GROUP_ID||'');
 const PUBLIC_URL=String(process.env.PUBLIC_URL||'').replace(/\/$/,'');
 const RECEPTION_PHONE=process.env.RECEPTION_PHONE||'+855 23 985 959';
-const RECEPTION_TELEGRAM=process.env.RECEPTION_TELEGRAM||'';
+const RECEPTION_TELEGRAM=process.env.RECEPTION_TELEGRAM||'Thyy_m';
 const WEBSITE=process.env.WEBSITE||'https://www.malineapartments.com.kh';
-const GOOGLE_MAPS_URL=process.env.GOOGLE_MAPS_URL||'';
+const GOOGLE_MAPS_URL=process.env.GOOGLE_MAPS_URL||'https://maps.app.goo.gl/cPzsiVqvMfZKjFb78';
 const GOOGLE_TRANSLATE_API_KEY=process.env.GOOGLE_TRANSLATE_API_KEY||'';
 const PORT=Number(process.env.PORT||8080);
 if(!BOT_TOKEN){console.error('BOT_TOKEN is missing');process.exit(1)}
